@@ -1,0 +1,80 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222 47% 11%; /* slate-900 */
+  --foreground: 210 40% 98%; /* gray-100 */
+  --card: 222 47% 15%; /* slate-800 */
+  --card-foreground: 210 40% 98%; /* gray-100 */
+  --popover: 222 47% 11%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 188 80% 50%; /* cyan-500 */
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217 33% 17%; /* slate-700 */
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 28% 65%; /* gray-400 */
+  --accent: 217 33% 17%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 72% 51%; /* red-600 */
+  --destructive-foreground: 210 40% 98%;
+  --border: 217 33% 27%; /* slate-600 */
+  --input: 217 33% 27%;
+  --ring: 188 80% 50%; /* cyan-500 */
+  --radius: 0.75rem; /* increased for a more modern feel */
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(221 83% 53%) 100%); /* cyan-500 to blue-600 */
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(221 83% 53%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Removed glass-effect as it might not fit the dark theme well, can be added back if needed */
+
+.floating-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 25px hsla(var(--primary), 0.5); }
+  50% { box-shadow: 0 0 45px hsla(var(--primary), 0.8); }
+}
+
+/* Specific styles for Sentrabase theme */
+h1, h2, h3, h4, h5, h6 {
+  @apply tracking-tight;
+}
+
+section {
+  @apply overflow-hidden; /* Helps contain animations and shadows */
+}
