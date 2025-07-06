@@ -1,0 +1,244 @@
+{
+  "cloudflare_free_plan": {
+    "domain": "sentrabase.id",
+    "plan": "free",
+    "features_available": {
+      "ddos_protection": "basic",
+      "ssl_certificate": "universal",
+      "cdn": "global",
+      "analytics": "basic",
+      "page_rules": 3,
+      "firewall_rules": 5,
+      "rate_limiting": "not_available",
+      "waf": "basic"
+    },
+    "security_configuration": {
+      "ssl_tls": {
+        "ssl_mode": "flexible",
+        "always_use_https": true,
+        "hsts": {
+          "enabled": false,
+          "note": "Not available in free plan"
+        },
+        "min_tls_version": "1.0"
+      },
+      "firewall_rules": [
+        {
+          "name": "Block XSS Attempts",
+          "expression": "(http.request.uri.query contains \"<script>\" or http.request.body contains \"<script>\")",
+          "action": "block",
+          "priority": 1,
+          "enabled": true
+        },
+        {
+          "name": "Block SQL Injection",
+          "expression": "(http.request.uri.query contains \"union select\" or http.request.body contains \"drop table\")",
+          "action": "block",
+          "priority": 2,
+          "enabled": true
+        },
+        {
+          "name": "Challenge Admin Access",
+          "expression": "http.request.uri.path contains \"/admin\"",
+          "action": "challenge",
+          "priority": 3,
+          "enabled": true
+        },
+        {
+          "name": "Block Known Bad Bots",
+          "expression": "(http.user_agent contains \"sqlmap\" or http.user_agent contains \"nikto\")",
+          "action": "block",
+          "priority": 4,
+          "enabled": true
+        },
+        {
+          "name": "Geographic Challenge",
+          "expression": "ip.geoip.country not in {\"ID\" \"SG\" \"MY\" \"TH\" \"PH\"}",
+          "action": "challenge",
+          "priority": 5,
+          "enabled": true
+        }
+      ],
+      "page_rules": [
+        {
+          "url": "sentrabase.id/api/*",
+          "settings": {
+            "cache_level": "bypass",
+            "security_level": "high"
+          },
+          "priority": 1
+        },
+        {
+          "url": "sentrabase.id/*.js",
+          "settings": {
+            "cache_level": "cache_everything",
+            "edge_cache_ttl": 2592000
+          },
+          "priority": 2
+        },
+        {
+          "url": "sentrabase.id/*.css",
+          "settings": {
+            "cache_level": "cache_everything",
+            "edge_cache_ttl": 2592000
+          },
+          "priority": 3
+        }
+      ],
+      "security_level": "medium",
+      "browser_integrity_check": true,
+      "challenge_passage": 1800
+    },
+    "performance": {
+      "caching": {
+        "cache_level": "standard",
+        "browser_cache_ttl": 14400,
+        "edge_cache_ttl": "respect_origin"
+      },
+      "minification": {
+        "html": true,
+        "css": true,
+        "js": true
+      },
+      "brotli": true,
+      "http2": true,
+      "ipv6": true
+    },
+    "analytics": {
+      "web_analytics": true,
+      "security_insights": "basic"
+    }
+  },
+  "self_hosted_waf": {
+    "description": "Comprehensive WAF implementation using Express.js middleware",
+    "features": [
+      "XSS Protection",
+      "SQL Injection Protection",
+      "Rate Limiting (3 tiers)",
+      "IP Blocking System",
+      "Bot Protection",
+      "CORS Protection",
+      "Security Headers (Helmet.js)",
+      "Input Validation",
+      "Request Size Limiting",
+      "HTTP Parameter Pollution Protection",
+      "Compression",
+      "Security Logging"
+    ],
+    "rate_limits": {
+      "demo_form": {
+        "requests": 3,
+        "window": "10 minutes",
+        "action": "block"
+      },
+      "login_attempts": {
+        "requests": 5,
+        "window": "15 minutes",
+        "action": "block"
+      },
+      "api_general": {
+        "requests": 100,
+        "window": "15 minutes",
+        "action": "challenge"
+      }
+    },
+    "security_patterns": {
+      "xss": [
+        "/<script\\b[^<]*(?:(?!<\\/script>)<[^<]*)*<\\/script>/gi",
+        "/javascript:/gi",
+        "/on\\w+\\s*=/gi",
+        "/<iframe/gi",
+        "/eval\\s*\\(/gi"
+      ],
+      "sql_injection": [
+        "/(\\b(select|insert|update|delete|drop|create|alter|exec|union)\\b)/gi",
+        "/(union\\s+select)/gi",
+        "/(drop\\s+table)/gi",
+        "/('|(\\\\')|(;)|(\\\\;))/gi"
+      ],
+      "command_injection": [
+        "/(\\||;|&|`|\\$\\(|\\${)/g",
+        "/(nc|netcat|wget|curl)\\s/gi"
+      ],
+      "path_traversal": [
+        "/\\.\\.\\/g",
+        "/\\.\\.\\\\/g",
+        "/\\/etc\\/passwd/gi"
+      ]
+    }
+  },
+  "hybrid_approach": {
+    "description": "Combine Cloudflare Free + Self-hosted WAF for maximum protection",
+    "architecture": {
+      "layer_1": "Cloudflare Free (DDoS, Basic WAF, CDN)",
+      "layer_2": "Self-hosted WAF (Advanced filtering, Rate limiting)",
+      "layer_3": "Application Security (Input validation, Authentication)"
+    },
+    "benefits": [
+      "Zero cost for basic protection",
+      "Advanced custom rules",
+      "Full control over security logic",
+      "Detailed logging and monitoring",
+      "Healthcare-specific protections"
+    ]
+  },
+  "deployment_steps": [
+    {
+      "step": 1,
+      "task": "Setup Cloudflare Free Account",
+      "actions": [
+        "Create Cloudflare account",
+        "Add sentrabase.id domain",
+        "Update nameservers"
+      ]
+    },
+    {
+      "step": 2,
+      "task": "Configure Cloudflare Free Settings",
+      "actions": [
+        "Enable SSL (Flexible)",
+        "Set security level to Medium",
+        "Configure 5 firewall rules",
+        "Setup 3 page rules"
+      ]
+    },
+    {
+      "step": 3,
+      "task": "Deploy Self-hosted WAF",
+      "actions": [
+        "Install Node.js dependencies",
+        "Configure WAF server",
+        "Setup rate limiting",
+        "Enable security logging"
+      ]
+    },
+    {
+      "step": 4,
+      "task": "Integration Testing",
+      "actions": [
+        "Test XSS protection",
+        "Test SQL injection blocking",
+        "Verify rate limiting",
+        "Check performance"
+      ]
+    }
+  ],
+  "cost_analysis": {
+    "cloudflare_free": {
+      "monthly_cost": "$0",
+      "features": "Basic DDoS, SSL, CDN, 5 firewall rules",
+      "limitations": "No advanced WAF, No rate limiting"
+    },
+    "self_hosted_waf": {
+      "monthly_cost": "$5-10 (server costs)",
+      "features": "Advanced WAF, Custom rules, Rate limiting, Logging",
+      "benefits": "Full control, Healthcare compliance"
+    },
+    "total_monthly_cost": "$5-10",
+    "vs_cloudflare_business": {
+      "cloudflare_business": "$20/month",
+      "our_solution": "$5-10/month",
+      "savings": "$10-15/month (50-75% cheaper)"
+    }
+  }
+}
