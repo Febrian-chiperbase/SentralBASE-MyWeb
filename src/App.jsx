@@ -1,6 +1,7 @@
 import React from 'react';
 import { Toaster } from '@/components/ui/toaster';
 import { SecurityProvider } from '@/components/security/SecurityProvider';
+import { AuthProvider } from '@/components/auth/AuthProvider';
 import Navbar from '@/components/sentrabase/layout/Navbar';
 import Footer from '@/components/sentrabase/layout/Footer';
 import HeroSection from '@/components/sentrabase/sections/HeroSection';
@@ -14,20 +15,22 @@ import FinalCTASection from '@/components/sentrabase/sections/FinalCTASection';
 function App() {
   return (
     <SecurityProvider>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-800 to-slate-900 text-gray-100">
-        <Toaster />
-        <Navbar />
-        <main>
-          <HeroSection />
-          <ProblemSection />
-          <SolutionSection />
-          <CorePillarsSection />
-          <PricingSection />
-          <TrustSignalSection />
-          <FinalCTASection />
-        </main>
-        <Footer />
-      </div>
+      <AuthProvider>
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-800 to-slate-900 text-gray-100">
+          <Toaster />
+          <Navbar />
+          <main>
+            <HeroSection />
+            <ProblemSection />
+            <SolutionSection />
+            <CorePillarsSection />
+            <PricingSection />
+            <TrustSignalSection />
+            <FinalCTASection />
+          </main>
+          <Footer />
+        </div>
+      </AuthProvider>
     </SecurityProvider>
   );
 }
