@@ -688,27 +688,38 @@ const ScheduleDemoModal = ({ isOpen, onClose }) => {
         )}
 
         {!isSuccess && (
-          <div className="flex items-center justify-between mb-6">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="flex items-center">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    i <= step
-                      ? 'bg-cyan-500 text-white'
-                      : 'bg-gray-200 text-gray-500'
-                  }`}
-                >
-                  {i}
-                </div>
-                {i < 4 && (
+          <div className="mb-8">
+            {/* Step Progress */}
+            <div className="flex items-center justify-between mb-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex items-center">
                   <div
-                    className={`w-12 h-1 mx-2 ${
-                      i < step ? 'bg-cyan-500' : 'bg-gray-200'
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold shadow-lg border-2 transition-all duration-300 ${
+                      i <= step
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-cyan-400 ring-2 ring-cyan-400/30'
+                        : 'bg-slate-100 text-slate-500 border-slate-300'
                     }`}
-                  />
-                )}
-              </div>
-            ))}
+                  >
+                    {i}
+                  </div>
+                  {i < 4 && (
+                    <div
+                      className={`w-16 h-1 mx-3 rounded-full transition-all duration-300 ${
+                        i < step ? 'bg-gradient-to-r from-cyan-500 to-blue-600' : 'bg-slate-200'
+                      }`}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            {/* Step Labels */}
+            <div className="flex items-center justify-between text-xs text-gray-600">
+              <span className={step === 1 ? 'font-semibold text-cyan-600' : ''}>Info Personal</span>
+              <span className={step === 2 ? 'font-semibold text-cyan-600' : ''}>Info Perusahaan</span>
+              <span className={step === 3 ? 'font-semibold text-cyan-600' : ''}>Preferensi Demo</span>
+              <span className={step === 4 ? 'font-semibold text-cyan-600' : ''}>Info Tambahan</span>
+            </div>
           </div>
         )}
 
@@ -722,7 +733,7 @@ const ScheduleDemoModal = ({ isOpen, onClose }) => {
               <Button
                 variant="outline"
                 onClick={prevStep}
-                className="flex items-center space-x-2"
+                className="font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
                 disabled={isSubmitting}
               >
                 <span>Kembali</span>
@@ -732,7 +743,7 @@ const ScheduleDemoModal = ({ isOpen, onClose }) => {
             {step < 4 ? (
               <Button
                 onClick={nextStep}
-                className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white hover:text-white flex items-center space-x-2"
+                className="font-semibold py-3 px-6 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
                 disabled={isSubmitting || security.isRateLimited()}
               >
                 <span>Lanjut</span>
