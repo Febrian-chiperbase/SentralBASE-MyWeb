@@ -216,7 +216,28 @@ export default defineConfig({
 				'@babel/traverse',
 				'@babel/generator',
 				'@babel/types'
-			]
+			],
+			output: {
+				// SEO-friendly file naming
+				entryFileNames: 'assets/[name]-[hash].js',
+				chunkFileNames: 'assets/[name]-[hash].js',
+				assetFileNames: 'assets/[name]-[hash].[ext]'
+			}
+		},
+		// Enable source maps for better debugging
+		sourcemap: true,
+		// Optimize for better loading performance
+		minify: 'terser',
+		terserOptions: {
+			compress: {
+				drop_console: true,
+				drop_debugger: true
+			}
 		}
+	},
+	// SEO optimizations
+	define: {
+		'process.env.VITE_SITE_URL': JSON.stringify(process.env.VITE_SITE_URL || 'https://sentrabase.com'),
+		'process.env.VITE_SITE_NAME': JSON.stringify('SentraBASE')
 	}
 });
