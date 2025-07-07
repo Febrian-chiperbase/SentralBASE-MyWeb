@@ -742,7 +742,7 @@ const ScheduleDemoModal = ({ isOpen, onClose }) => {
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || security.isRateLimited()}
-                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white hover:text-white flex items-center space-x-2"
+                className="w-full font-semibold py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
               >
                 {isSubmitting ? (
                   <>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { Calendar } from 'lucide-react';
 import ScheduleDemoModal from '../ScheduleDemoModal';
 
 const FinalCTASection = () => {
@@ -45,8 +46,9 @@ const FinalCTASection = () => {
             <Button
               onClick={handleScheduleDemo}
               size="lg"
-              className="text-xl font-bold px-12 py-8 bg-white text-blue-600 hover:bg-gray-100 rounded-xl shadow-2xl hover:shadow-white/30 transform hover:scale-105 transition-all duration-300"
+              className="w-full sm:w-auto font-semibold py-3 px-8 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
             >
+              <Calendar className="w-4 h-4 mr-2" />
               Jadwalkan Demo Gratis Sekarang
             </Button>
           </motion.div>
