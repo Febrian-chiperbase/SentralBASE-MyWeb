@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Clock, Copy, ExternalLink, RefreshCw, AlertTriangle, Building } from 'lucide-react';
+import { CheckCircle, Clock, Copy, ExternalLink, RefreshCw, AlertTriangle, Building, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePayment } from '@/contexts/PaymentContext';
+// import NotificationService from '@/services/notificationService'; // Temporarily disabled
 
 const PaymentInstructions = ({ paymentData, onClose }) => {
-  const { checkPaymentStatus } = usePayment();
+  const { checkPaymentStatus, selectedPlan, customerInfo, billingCycle, paymentMethod, calculatePrice } = usePayment();
   const [copied, setCopied] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState('pending');
   const [timeLeft, setTimeLeft] = useState(null);
+  const [notificationSent, setNotificationSent] = useState(false);
 
   // Auto-check payment status (only for non-manual payments)
   useEffect(() => {
@@ -69,6 +71,34 @@ const PaymentInstructions = ({ paymentData, onClose }) => {
       currency: 'IDR',
       minimumFractionDigits: 0
     }).format(price);
+  };
+
+  // Simulate payment success for manual transfer (temporarily disabled)
+  const simulatePaymentSuccess = async () => {
+    try {
+      console.log('🎯 Simulating payment success (notification disabled)...');
+      
+      const fullPaymentData = {
+        transactionId: paymentData.orderId,
+        customerInfo,
+        plan: selectedPlan,
+        pricing: calculatePrice(selectedPlan, billingCycle),
+        paymentMethod: paymentMethod || { name: 'Transfer Bank Manual' },
+        paymentDate: new Date().toISOString()
+      };
+
+      // Temporarily disabled notification service
+      console.log('📧 Payment data prepared:', fullPaymentData);
+      console.log('⚠️ Notification service temporarily disabled');
+      
+      setNotificationSent(true);
+      setPaymentStatus('success');
+      
+      alert('Demo: Payment success simulation completed! (Notifications temporarily disabled)');
+    } catch (error) {
+      console.error('Demo notification error:', error);
+      alert('Demo error: ' + error.message);
+    }
   };
 
   if (paymentStatus === 'success') {
@@ -276,6 +306,38 @@ const PaymentInstructions = ({ paymentData, onClose }) => {
             <ExternalLink className="w-4 h-4 mr-2" />
             Buka Halaman Pembayaran
           </Button>
+        </div>
+      )}
+
+      {/* Demo Button untuk Test Notifikasi */}
+      {isManualTransfer && !notificationSent && (
+        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+          <h4 className="font-semibold text-blue-400 mb-2">🧪 Demo Mode - Test Notifikasi</h4>
+          <p className="text-sm text-gray-300 mb-3">
+            Klik tombol di bawah untuk simulasi pengiriman email dan WhatsApp konfirmasi pembayaran.
+          </p>
+          <Button
+            onClick={simulatePaymentSuccess}
+            className="bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            <Send className="w-4 h-4 mr-2" />
+            Test Kirim Notifikasi
+          </Button>
+        </div>
+      )}
+
+      {/* Notification Success Message */}
+      {notificationSent && (
+        <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+          <h4 className="font-semibold text-green-400 mb-2">✅ Payment Success Demo!</h4>
+          <div className="space-y-1 text-sm text-gray-300">
+            <p>📧 Email notification system ready (temporarily disabled)</p>
+            <p>📱 WhatsApp notification system ready (temporarily disabled)</p>
+            <p>🔔 Admin notification system ready (temporarily disabled)</p>
+            <p className="text-xs text-gray-400 mt-2">
+              *Notification services will be enabled after proper API configuration.
+            </p>
+          </div>
         </div>
       )}
 

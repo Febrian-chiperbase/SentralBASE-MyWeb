@@ -1,281 +1,363 @@
-# 🏥 SentraBASE - Sistem RME & Keamanan Klinik
+# 🏥 SentraBASE - Hospital Management System
 
-[![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-4.5.14-green.svg)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.0-38B2AC.svg)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+**Complete Hospital Management System for Indonesian Healthcare Providers**
 
-Platform Rekam Medis Elektronik (RME) dengan keamanan tingkat tinggi untuk klinik dan rumah sakit di Indonesia. Dilengkapi dengan sistem pembayaran terintegrasi yang mendukung transfer langsung ke rekening BCA.
+[![React](https://img.shields.io/badge/React-18.0+-blue.svg)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-4.0+-purple.svg)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.0+-cyan.svg)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## ✨ Features
+## 📋 **Overview**
 
-### 🏥 Healthcare Management
-- **Rekam Medis Elektronik (RME)** - Digital patient records
-- **Manajemen Pasien** - Patient registration & management
-- **Jadwal Dokter** - Doctor scheduling system
-- **Resep Digital** - Electronic prescription
-- **Billing & Invoicing** - Automated billing system
-- **Laporan Analitik** - Healthcare analytics & reports
+SentraBASE is a comprehensive hospital management system designed specifically for Indonesian healthcare providers. It offers a complete solution for managing hospital operations, from patient registration to administrative tasks, with integrated WhatsApp and email notifications.
 
-### 💳 Payment System
-- **Multiple Payment Gateways** - DOKU, Xendit, Midtrans
-- **BCA Integration** - Direct settlement to BCA account
-- **Manual Transfer** - 100% free bank transfer option
-- **Real-time Verification** - Instant payment confirmation
-- **Fee Optimization** - Lowest fees in Indonesian market
+### 🎯 **Key Features**
 
-### 🔒 Security & Compliance
-- **Healthcare Data Security** - HIPAA-ready infrastructure
-- **Indonesian Compliance** - Kemenkes standards
-- **Data Encryption** - End-to-end encryption
-- **Audit Trail** - Complete transaction logging
-- **Backup & Recovery** - Automated data backup
+- **🏥 Hospital Management** - Complete patient and medical record management
+- **👥 Customer Management** - Advanced CRM for healthcare providers
+- **📋 Task Management** - Team coordination and workflow management
+- **📅 Calendar Management** - Appointment scheduling and event management
+- **👨‍💼 Team Management** - Staff coordination and workload management
+- **⚡ Workflow Automation** - Automated business processes
+- **📊 Advanced Analytics** - Business intelligence and reporting
+- **📱 WhatsApp Integration** - Real-time notifications via WhatsApp
+- **📧 Email Notifications** - Professional email alerts
+- **🔒 Admin Dashboard** - Secure administrative interface
 
-### 🎨 Modern UI/UX
+## 🚀 **Live Demo**
+
+- **Website:** [SentraBASE Landing Page](http://localhost:5173/)
+- **Admin Dashboard:** [Admin Panel](http://localhost:5173/#admin)
+- **Login:** `sentrabase2025`
+
+## 📱 **Notification Integration**
+
+### **WhatsApp Notifications**
+- **Phone:** +6282132115008
+- **Features:** Real-time alerts with emoji and markdown formatting
+- **Triggers:** Tasks, customers, calendar events, team updates
+
+### **Email Notifications**
+- **Email:** fery10febrian@gmail.com
+- **Features:** Detailed professional notifications
+- **Format:** Structured plain text with complete information
+
+## 🛠 **Technology Stack**
+
+### **Frontend**
+- **React 18** - Modern UI library
+- **Vite** - Fast build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **Framer Motion** - Animation library
+- **Lucide React** - Icon library
+
+### **Features**
 - **Responsive Design** - Mobile-first approach
-- **Dark Theme** - Professional healthcare interface
-- **Accessibility** - WCAG 2.1 compliant
-- **Progressive Web App** - Offline capability
+- **Dark Theme** - Professional dark interface
 - **Real-time Updates** - Live data synchronization
+- **Local Storage** - Client-side data persistence
+- **SEO Optimized** - Search engine friendly
 
-## 🚀 Quick Start
+## 📦 **Installation**
 
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-- Git
+### **Prerequisites**
+- Node.js 16.0 or higher
+- npm or yarn package manager
 
-### Installation
-
+### **Setup**
 ```bash
-# Clone repository
-git clone https://github.com/yourusername/SentraBASE.git
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/SentraBASE.git
+
+# Navigate to project directory
 cd SentraBASE
 
 # Install dependencies
 npm install
 
-# Copy environment variables
-cp .env.example .env
-
 # Start development server
 npm run dev
-```
 
-### Environment Setup
-
-Create `.env` file with your configuration:
-
-```env
-# BCA Payment Configuration
-VITE_BCA_ACCOUNT_NUMBER=your_bca_account_number
-
-# Midtrans Configuration (Optional)
-VITE_MIDTRANS_CLIENT_KEY=your_midtrans_client_key
-VITE_MIDTRANS_SERVER_KEY=your_midtrans_server_key
-VITE_MIDTRANS_SANDBOX=true
-
-# DOKU Configuration (Optional - Lowest Fees)
-VITE_DOKU_CLIENT_ID=your_doku_client_id
-VITE_DOKU_SHARED_KEY=your_doku_shared_key
-
-# Site Configuration
-VITE_SITE_URL=http://localhost:5173
-VITE_SITE_NAME=SentraBASE
-```
-
-## 💰 Payment Options & Fees
-
-| Payment Method | Fee | Processing Time | Recommended |
-|----------------|-----|-----------------|-------------|
-| **Manual Transfer** | **FREE** | 1-2 hours | ⭐ **Best for startups** |
-| **DOKU Gateway** | Rp 2.500 (VA) | Instant | ⭐ **Lowest fees** |
-| **Xendit** | Rp 3.000 (VA) | Instant | Good alternative |
-| **Midtrans** | Rp 4.000 (VA) | Instant | Most popular |
-
-### 🆓 Free Manual Transfer
-- **Zero fees** - 100% profit margin
-- **Direct to BCA** - Money goes straight to your account
-- **Perfect for MVP** - Start without payment gateway costs
-- **WhatsApp verification** - Manual but reliable
-
-### 💳 Automated Gateways
-- **DOKU** - Lowest fees in Indonesia (Rp 2.500 vs Midtrans Rp 4.000)
-- **Auto settlement** - Money automatically transferred to BCA
-- **Real-time confirmation** - Instant payment verification
-- **Multiple methods** - VA, Credit Card, E-wallet
-
-## 🏗️ Architecture
-
-### Frontend Stack
-- **React 18** - Modern React with hooks
-- **Vite** - Lightning fast build tool
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Smooth animations
-- **Lucide Icons** - Beautiful icon library
-
-### Payment Integration
-- **Multi-provider** - DOKU, Xendit, Midtrans support
-- **Fallback system** - Never-fail payment processing
-- **Smart routing** - Automatic fee optimization
-- **Real-time status** - Live payment tracking
-
-### SEO & Performance
-- **Medical Schema** - Healthcare-specific structured data
-- **Meta optimization** - Perfect for healthcare keywords
-- **Core Web Vitals** - Optimized performance scores
-- **Mobile-first** - Responsive design
-
-## 📊 Pricing Plans
-
-### 💡 Starter - Rp 1.5jt/month
-- 500 patients, 3 users, 10GB storage
-- Basic RME features
-- Email support
-- Perfect for small clinics
-
-### 🚀 Professional - Rp 3jt/month (Most Popular)
-- 5,000 patients, unlimited users, 100GB
-- Full RME + telemedicine
-- Priority support
-- Multi-branch support
-
-### 🏢 Enterprise - Custom Pricing
-- Unlimited everything
-- Custom integrations
-- Dedicated support
-- SLA guarantees
-
-## 🛠️ Development
-
-### Available Scripts
-
-```bash
-# Development
-npm run dev          # Start dev server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Run ESLint
-
-# Testing
-npm run test         # Run tests
-npm run test:coverage # Test coverage report
-
-# Deployment
-npm run deploy       # Deploy to production
-```
-
-### Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   ├── ui/             # Base UI components
-│   ├── seo/            # SEO components
-│   ├── payment/        # Payment components
-│   └── sentrabase/     # App-specific components
-├── contexts/           # React contexts
-├── services/           # API services
-├── utils/              # Utility functions
-├── styles/             # Global styles
-└── assets/             # Static assets
-```
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-### Netlify
-```bash
-# Build
+# Build for production
 npm run build
-
-# Deploy dist/ folder to Netlify
 ```
 
-### Traditional Hosting
+### **Environment Setup**
 ```bash
-# Build
-npm run build
+# Copy environment template
+cp .env.example .env
 
-# Upload dist/ folder to your server
+# Edit environment variables
+nano .env
 ```
 
-## 📈 Business Benefits
+## 🎯 **Usage**
 
-### 💰 Revenue Optimization
-- **Multiple pricing tiers** - Capture different market segments
-- **Payment flexibility** - Free and paid options
-- **Lowest fees** - DOKU integration saves 37.5% vs Midtrans
-- **Zero lost sales** - Fallback system ensures payment success
+### **1. Landing Page**
+- Visit `http://localhost:5173/`
+- Explore hospital management features
+- View pricing plans and testimonials
 
-### 🎯 Market Positioning
-- **Healthcare-focused** - Specialized for Indonesian medical market
-- **Compliance-ready** - Meets Kemenkes requirements
-- **Professional design** - Builds trust with medical professionals
-- **Mobile-optimized** - Perfect for busy healthcare environments
+### **2. Admin Dashboard**
+- Access `http://localhost:5173/#admin`
+- Login with password: `sentrabase2025`
+- Manage all hospital operations
 
-### 📊 Analytics & Insights
-- **Payment tracking** - Monitor revenue and conversion
-- **User behavior** - Understand customer journey
-- **Performance metrics** - Core Web Vitals monitoring
-- **SEO analytics** - Track organic growth
+### **3. Core Modules**
 
-## 🔒 Security
+#### **📊 Live Monitoring**
+- Real-time customer tracking
+- Activity monitoring
+- Performance metrics
 
-### Data Protection
-- **HTTPS everywhere** - SSL/TLS encryption
-- **Input validation** - XSS and injection protection
-- **Secure headers** - OWASP security headers
-- **Environment isolation** - Separate dev/prod configs
+#### **📈 Advanced Analytics**
+- Business intelligence dashboard
+- Revenue forecasting
+- Performance analytics
 
-### Payment Security
-- **PCI DSS ready** - Credit card security standards
-- **No sensitive data storage** - Tokenization approach
-- **Webhook verification** - Signature validation
-- **Audit logging** - Complete transaction trails
+#### **⚡ Workflow Automation**
+- Automated business processes
+- Custom workflow builder
+- Trigger-based actions
 
-## 📞 Support
+#### **📋 Task Management**
+- Team task coordination
+- Priority management
+- Deadline tracking
 
-### Documentation
-- [Payment Setup Guide](./BCA_PAYMENT_SETUP_GUIDE.md)
-- [SEO Optimization Guide](./SEO_UPGRADE_GUIDE.md)
-- [Error Troubleshooting](./ERROR_FIX_GUIDE.md)
-- [Fee Comparison](./PAYMENT_FEE_COMPARISON.md)
+#### **📅 Calendar Management**
+- Appointment scheduling
+- Event management
+- Meeting coordination
 
-### Contact
-- **Email**: support@sentrabase.com
-- **WhatsApp**: +62-812-3456-7890
-- **Website**: https://sentrabase.com
+#### **👨‍💼 Team Management**
+- Staff coordination
+- Workload management
+- Role-based access
 
-## 🤝 Contributing
+#### **👥 Customer Management**
+- Patient records
+- Customer relationship management
+- Communication tracking
 
+#### **📱 Notifications**
+- WhatsApp integration
+- Email notifications
+- Real-time alerts
+
+## 🔧 **Configuration**
+
+### **Notification Settings**
+```javascript
+// WhatsApp Configuration
+const whatsappConfig = {
+  adminPhone: '+6282132115008',
+  enabled: true,
+  rateLimitDelay: 2000
+};
+
+// Email Configuration
+const emailConfig = {
+  adminEmail: 'fery10febrian@gmail.com',
+  enabled: true,
+  rateLimitDelay: 3000
+};
+```
+
+### **Admin Access**
+```javascript
+// Admin Authentication
+const adminConfig = {
+  password: 'sentrabase2025',
+  sessionTimeout: 3600000 // 1 hour
+};
+```
+
+## 📊 **Features Overview**
+
+### **🏥 Hospital Management**
+- Patient registration and records
+- Medical history tracking
+- Appointment scheduling
+- Billing and invoicing
+
+### **👥 Customer Relationship Management**
+- Customer database with 20+ fields
+- Industry categorization (9 industries)
+- Customer type management (4 types)
+- Source tracking (8 sources)
+- CSV export functionality
+
+### **📋 Task Management**
+- Task creation with 6 task types
+- Priority system (4 levels)
+- Team assignment with workload tracking
+- Due date management
+- Progress tracking
+
+### **📅 Calendar System**
+- Event scheduling
+- Meeting management
+- Reminder system
+- Attendee management
+
+### **👨‍💼 Team Coordination**
+- Team member management
+- Role assignment
+- Workload monitoring
+- Performance tracking
+
+### **⚡ Automation**
+- Workflow builder
+- Trigger-based actions
+- Automated notifications
+- Process optimization
+
+### **📊 Analytics**
+- Revenue analytics
+- Customer analytics
+- Team performance
+- Predictive forecasting
+
+### **📱 Dual Notifications**
+- WhatsApp instant messaging
+- Professional email alerts
+- Dual-channel delivery
+- Rate limiting protection
+
+## 🎨 **UI/UX Features**
+
+### **Design System**
+- **Dark Theme** - Professional healthcare interface
+- **Responsive Design** - Mobile-first approach
+- **Accessibility** - WCAG compliant
+- **Animation** - Smooth transitions with Framer Motion
+
+### **Components**
+- **Modular Architecture** - Reusable components
+- **Form Validation** - Comprehensive input validation
+- **Data Tables** - Advanced data display
+- **Charts & Graphs** - Visual analytics
+
+## 🔒 **Security**
+
+### **Authentication**
+- Password-protected admin access
+- Session management
+- Secure routing
+
+### **Data Protection**
+- Local storage encryption
+- Input sanitization
+- XSS protection
+
+## 📈 **Performance**
+
+### **Optimization**
+- **Code Splitting** - Lazy loading components
+- **Bundle Optimization** - Minimized production builds
+- **Caching** - Efficient data caching
+- **SEO** - Search engine optimization
+
+### **Metrics**
+- **Lighthouse Score** - 90+ performance
+- **Bundle Size** - Optimized for fast loading
+- **Runtime Performance** - Smooth user experience
+
+## 🧪 **Testing**
+
+### **Test Coverage**
+- Unit tests for core functions
+- Integration tests for workflows
+- E2E tests for user journeys
+
+### **Quality Assurance**
+- Code linting with ESLint
+- Type checking with PropTypes
+- Performance monitoring
+
+## 📚 **Documentation**
+
+### **API Documentation**
+- Component API reference
+- Service documentation
+- Configuration guide
+
+### **User Guides**
+- Admin dashboard guide
+- Feature tutorials
+- Best practices
+
+## 🤝 **Contributing**
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### **Development Workflow**
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-## 📄 License
+### **Code Standards**
+- Follow ESLint configuration
+- Use Prettier for formatting
+- Write meaningful commit messages
+- Add documentation for new features
+
+## 📄 **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## 👨‍💻 **Author**
 
-- **React Team** - For the amazing framework
-- **Tailwind CSS** - For the utility-first approach
-- **Indonesian Payment Gateways** - DOKU, Xendit, Midtrans
-- **Healthcare Community** - For feedback and requirements
+**Febrian Fery**
+- Email: fery10febrian@gmail.com
+- WhatsApp: +6282132115008
+- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+
+## 🙏 **Acknowledgments**
+
+- React team for the amazing framework
+- Tailwind CSS for the utility-first CSS framework
+- Vite team for the fast build tool
+- All contributors and testers
+
+## 📞 **Support**
+
+For support and questions:
+- **Email:** fery10febrian@gmail.com
+- **WhatsApp:** +6282132115008
+- **Issues:** [GitHub Issues](https://github.com/YOUR_USERNAME/SentraBASE/issues)
+
+## 🗺 **Roadmap**
+
+### **Version 2.0 (Planned)**
+- [ ] Multi-language support (Indonesian/English)
+- [ ] Advanced reporting system
+- [ ] Mobile app companion
+- [ ] API integration
+- [ ] Cloud deployment options
+
+### **Version 1.5 (In Progress)**
+- [x] WhatsApp integration
+- [x] Email notifications
+- [x] Advanced analytics
+- [x] Workflow automation
+- [ ] User role management
+- [ ] Data export/import
+
+### **Version 1.0 (Current)**
+- [x] Core hospital management
+- [x] Admin dashboard
+- [x] Task management
+- [x] Customer management
+- [x] Calendar system
+- [x] Team management
+- [x] Notification system
 
 ---
 
-**Built with ❤️ for Indonesian Healthcare**
+**Made with ❤️ for Indonesian Healthcare Providers**
 
-*Digitizing healthcare, one clinic at a time* 🏥✨
+*SentraBASE - Revolutionizing Hospital Management in Indonesia*

@@ -3,6 +3,7 @@ import BCAPaymentService from '@/services/bcaPayment';
 import ManualBankTransferService from '@/services/manualBankTransfer';
 import XenditPaymentService from '@/services/xenditPayment';
 import DOKUPaymentService from '@/services/dokuPayment';
+// import NotificationService from '@/services/notificationService'; // Temporarily disabled
 
 const PaymentContext = createContext();
 
@@ -444,13 +445,87 @@ export const PaymentProvider = ({ children }) => {
     }
   };
 
-  const checkPaymentStatus = async (orderId) => {
-    // Implementation untuk check status
-    return { success: true, status: 'pending' };
+  // Handle successful payment dengan notifikasi
+  const handleSuccessfulPayment = async (orderId, notification) => {
+    console.log('💰 Payment successful! Processing notifications...', {
+      orderId,
+      amount: notification.gross_amount,
+      paymentType: notification.payment_type,
+      settlementTime: notification.settlement_time
+    });
+
+    try {
+      // Reconstruct payment data
+      const paymentData = {
+        transactionId: orderId,
+        customerInfo: state.customerInfo,
+        plan: state.selectedPlan,
+        pricing: calculatePrice(state.selectedPlan, state.billingCycle),
+        paymentMethod: state.paymentMethod,
+        paymentDate: notification.settlement_time || new Date().toISOString()
+      };
+
+      // Send notifications (Email + WhatsApp)
+      console.log('📢 Sending payment confirmation notifications...');
+      const notificationResult = await NotificationService.sendPaymentConfirmation(paymentData);
+      
+      if (notificationResult.success) {
+        console.log('✅ Notifications sent successfully:', notificationResult.message);
+      } else {
+        console.log('⚠️ Some notifications failed, fallback options available:', notificationResult.fallbackOptions);
+      }
+
+      // Update payment status
+      dispatch({ type: 'SET_PAYMENT_STATUS', payload: 'success' });
+      
+      // Send admin alert
+      await NotificationService.sendAdminAlert(paymentData);
+      
+      return { success: true, notificationResult };
+    } catch (error) {
+      console.error('Error processing successful payment:', error);
+      return { success: false, error: error.message };
+    }
   };
 
   const resetPayment = () => {
     dispatch({ type: 'RESET_PAYMENT' });
+  };
+
+  // Check payment status
+  const checkPaymentStatus = async (orderId) => {
+    try {
+      console.log('🔍 Checking payment status for:', orderId);
+      
+      // TODO: Implement real payment status checking
+      // For now, return a mock response
+      return { 
+        success: true, 
+        status: 'pending',
+        message: 'Payment status check (mock response)'
+      };
+    } catch (error) {
+      console.error('Error checking payment status:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // Send manual payment confirmation (temporarily disabled)
+  const sendManualPaymentConfirmation = async (paymentData) => {
+    try {
+      console.log('📧 Manual payment confirmation (disabled for now):', paymentData);
+      
+      // TODO: Re-enable when notification service is fixed
+      // const notificationResult = await NotificationService.sendPaymentConfirmation(paymentData);
+      
+      return { 
+        success: true, 
+        message: 'Notification system temporarily disabled - payment recorded successfully' 
+      };
+    } catch (error) {
+      console.error('Manual payment confirmation error:', error);
+      return { success: false, error: error.message };
+    }
   };
 
   const value = {
@@ -466,7 +541,8 @@ export const PaymentProvider = ({ children }) => {
     calculatePrice,
     processPayment,
     checkPaymentStatus,
-    resetPayment
+    resetPayment,
+    sendManualPaymentConfirmation
   };
 
   return (

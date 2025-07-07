@@ -81,6 +81,55 @@ const PaymentModalFixed = ({ isOpen, onClose }) => {
         return;
       }
       console.log('✅ Form validation passed');
+      
+      // Track customer activity setelah form valid (hanya sekali)
+      const existingSessions = Object.keys(localStorage).filter(key => 
+        key.startsWith('payment_session_') && 
+        localStorage.getItem(key).includes(customerInfo.email)
+      );
+      
+      // Hanya buat session baru jika belum ada untuk customer ini
+      if (existingSessions.length === 0) {
+        const sessionId = `payment_session_${Date.now()}`;
+        const sessionData = {
+          id: sessionId,
+          timestamp: Date.now(),
+          customerInfo: customerInfo,
+          plan: selectedPlan,
+          step: 2,
+          status: 'active',
+          activity: 'form_completed'
+        };
+        
+        // Store in localStorage
+        localStorage.setItem(sessionId, JSON.stringify(sessionData));
+        console.log('💾 Stored NEW session data:', sessionData);
+        
+        // Create notification hanya untuk customer baru
+        const notificationId = `notification_${Date.now()}`;
+        const notification = {
+          id: Date.now(),
+          type: 'new_customer',
+          message: `🆕 Customer baru: ${customerInfo.clinicName} mulai memesan`,
+          timestamp: Date.now(),
+          data: sessionData
+        };
+        localStorage.setItem(notificationId, JSON.stringify(notification));
+        
+        // Track via global function
+        if (typeof window.trackCustomerActivity === 'function') {
+          window.trackCustomerActivity({
+            type: 'new_customer',
+            step: 2,
+            customerInfo,
+            plan: selectedPlan,
+            timestamp: Date.now(),
+            sessionId
+          });
+        }
+      } else {
+        console.log('📋 Customer session already exists, skipping notification');
+      }
     }
     
     if (currentStep === 2) {
@@ -94,6 +143,37 @@ const PaymentModalFixed = ({ isOpen, onClose }) => {
         return;
       }
       console.log('✅ Payment method selected:', paymentMethod.name);
+      
+      // Update session with payment method (hanya sekali per session)
+      const sessions = Object.keys(localStorage).filter(key => key.startsWith('payment_session_'));
+      if (sessions.length > 0) {
+        const latestSession = sessions[sessions.length - 1];
+        const sessionData = JSON.parse(localStorage.getItem(latestSession));
+        
+        // Cek apakah payment method sudah dipilih sebelumnya
+        if (!sessionData.paymentMethod) {
+          sessionData.paymentMethod = paymentMethod;
+          sessionData.step = 3;
+          sessionData.activity = 'payment_method_selected';
+          sessionData.timestamp = Date.now();
+          localStorage.setItem(latestSession, JSON.stringify(sessionData));
+          
+          // Create progress notification hanya jika belum ada
+          const notificationId = `notification_${Date.now()}`;
+          const notification = {
+            id: Date.now(),
+            type: 'payment_method',
+            message: `💳 ${customerInfo.clinicName} pilih ${paymentMethod.name}`,
+            timestamp: Date.now(),
+            data: sessionData
+          };
+          localStorage.setItem(notificationId, JSON.stringify(notification));
+          
+          console.log('💳 Payment method selected notification created');
+        } else {
+          console.log('💳 Payment method already selected, skipping notification');
+        }
+      }
     }
     
     const nextStep = Math.min(currentStep + 1, 4);
