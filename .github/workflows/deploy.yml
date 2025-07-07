@@ -1,0 +1,78 @@
+name: 🚀 Deploy SentraBASE
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: 📦 Install dependencies
+      run: npm ci
+      
+    - name: 🔍 Run linting
+      run: npm run lint --if-present
+      
+    - name: 🧪 Run tests
+      run: npm run test --if-present
+      
+    - name: 🏗️ Build project
+      run: npm run build
+      
+    - name: 📊 Check bundle size
+      run: |
+        echo "Bundle size analysis:"
+        du -sh dist/
+        
+    - name: 🔒 Security audit
+      run: npm audit --audit-level moderate
+      
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: 📦 Install dependencies
+      run: npm ci
+      
+    - name: 🏗️ Build for production
+      run: npm run build
+      env:
+        VITE_SITE_URL: ${{ secrets.SITE_URL }}
+        VITE_SITE_NAME: SentraBASE
+        
+    - name: 🚀 Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.ORG_ID }}
+        vercel-project-id: ${{ secrets.PROJECT_ID }}
+        vercel-args: '--prod'
+        working-directory: ./
