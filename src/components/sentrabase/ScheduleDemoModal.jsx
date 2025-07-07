@@ -690,11 +690,24 @@ const ScheduleDemoModal = ({ isOpen, onClose }) => {
         {!isSuccess && (
           <div className="mb-8">
             {/* Step Progress */}
-            <div className="flex items-center justify-between mb-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="flex items-center">
+            <div className="relative flex items-center mb-4 px-4">
+              {/* Background line */}
+              <div className="absolute top-1/2 left-0 right-0 h-1 bg-slate-200 rounded-full transform -translate-y-1/2 mx-9"></div>
+              
+              {/* Progress line */}
+              <div 
+                className="absolute top-1/2 left-0 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full transform -translate-y-1/2 transition-all duration-500 mx-9"
+                style={{ 
+                  width: `${((step - 1) / 3) * 100}%`
+                }}
+              ></div>
+              
+              {/* Step circles */}
+              <div className="relative flex justify-between w-full">
+                {[1, 2, 3, 4].map((i) => (
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold shadow-lg border-2 transition-all duration-300 ${
+                    key={i}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold shadow-lg border-2 transition-all duration-300 bg-white ${
                       i <= step
                         ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-cyan-400 ring-2 ring-cyan-400/30'
                         : 'bg-slate-100 text-slate-500 border-slate-300'
@@ -702,23 +715,16 @@ const ScheduleDemoModal = ({ isOpen, onClose }) => {
                   >
                     {i}
                   </div>
-                  {i < 4 && (
-                    <div
-                      className={`w-16 h-1 mx-3 rounded-full transition-all duration-300 ${
-                        i < step ? 'bg-gradient-to-r from-cyan-500 to-blue-600' : 'bg-slate-200'
-                      }`}
-                    />
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             
             {/* Step Labels */}
-            <div className="flex items-center justify-between text-xs text-gray-600">
-              <span className={step === 1 ? 'font-semibold text-cyan-600' : ''}>Info Personal</span>
-              <span className={step === 2 ? 'font-semibold text-cyan-600' : ''}>Info Perusahaan</span>
-              <span className={step === 3 ? 'font-semibold text-cyan-600' : ''}>Preferensi Demo</span>
-              <span className={step === 4 ? 'font-semibold text-cyan-600' : ''}>Info Tambahan</span>
+            <div className="grid grid-cols-4 gap-2 text-xs text-center px-4">
+              <span className={step === 1 ? 'font-semibold text-cyan-600' : 'text-gray-600'}>Info Personal</span>
+              <span className={step === 2 ? 'font-semibold text-cyan-600' : 'text-gray-600'}>Info Perusahaan</span>
+              <span className={step === 3 ? 'font-semibold text-cyan-600' : 'text-gray-600'}>Preferensi Demo</span>
+              <span className={step === 4 ? 'font-semibold text-cyan-600' : 'text-gray-600'}>Info Tambahan</span>
             </div>
           </div>
         )}
