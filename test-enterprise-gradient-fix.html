@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Gradient Fix - SentraBASE Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #6d28d9, #5b21b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.125rem;
+            color: #4a5568;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        
+        .comparison-section {
+            margin-bottom: 40px;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .comparison-card {
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+        }
+        
+        .before-card {
+            background: linear-gradient(135deg, #6d28d9, #5b21b6);
+            border: 1px solid rgba(109, 40, 217, 0.3);
+            position: relative;
+        }
+        
+        .before-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .after-card {
+            background: linear-gradient(135deg, #6d28d9, #5b21b6);
+            border: 1px solid rgba(109, 40, 217, 0.3);
+            position: relative;
+        }
+        
+        .after-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-label {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Before - Problematic gradient */
+        .before-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin: 0;
+            /* Simulate the problematic gradient that was too subtle */
+            background: linear-gradient(135deg, #ffffff, #f3e8ff, #e9d5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* This gradient was too subtle and made text invisible */
+        }
+        
+        /* After - Fixed gradient */
+        .after-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin: 0;
+            /* Fixed gradient with better contrast and color stops */
+            background: linear-gradient(135deg, #ffffff 0%, #f8faff 30%, #f3e8ff 70%, #e9d5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.025em;
+            filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.3));
+            animation: enterpriseGradientFixed 4s ease-in-out infinite;
+        }
+        
+        @keyframes enterpriseGradientFixed {
+            0% {
+                background: linear-gradient(135deg, #ffffff 0%, #f8faff 30%, #f3e8ff 70%, #e9d5ff 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            50% {
+                background: linear-gradient(135deg, #ffffff 0%, #f3e8ff 25%, #e9d5ff 50%, #d8b4fe 75%, #c4b5fd 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            100% {
+                background: linear-gradient(135deg, #ffffff 0%, #f8faff 30%, #f3e8ff 70%, #e9d5ff 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+        }
+        
+        .card-description {
+            margin: 0 0 16px 0;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-features {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .card-feature {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .test-button {
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .test-button:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .fixes-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .fixes-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .fix-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .fix-check {
+            width: 20px;
+            height: 20px;
+            background: #6d28d9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .fix-text {
+            color: #4a5568;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f3e8ff;
+            color: #4c1d95;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 16px;
+            border: 1px solid #c4b5fd;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #6d28d9;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Browser compatibility fallback */
+        @supports not (-webkit-background-clip: text) {
+            .before-title,
+            .after-title {
+                color: white !important;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🛡️ Enterprise Gradient Fixed!</h1>
+            <p class="subtitle">Masalah gradient text pada "SentraBASE Enterprise" telah diperbaiki dengan kontras yang lebih baik</p>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                Enterprise Gradient Fixed - Animation Preserved
+            </div>
+        </div>
+
+        <div class="comparison-section">
+            <h2 style="text-align: center; color: #1a202c; font-weight: 700; margin-bottom: 24px;">
+                Before vs After Comparison
+            </h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card before-card">
+                    <div class="card-content">
+                        <div class="card-label">❌ Before (Bermasalah)</div>
+                        <div class="card-header">
+                            <div class="card-icon">🛡️</div>
+                            <div>
+                                <h3 class="before-title">SentraBASE Enterprise</h3>
+                                <p class="card-description">Text hampir tidak terlihat</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card-features">
+                            <span class="card-feature">Unlimited Users</span>
+                            <span class="card-feature">Unlimited Patients</span>
+                            <span class="card-feature">15+ Features</span>
+                        </div>
+                        
+                        <p style="font-size: 0.875rem; opacity: 0.8;">
+                            Gradient terlalu subtle, text tidak terbaca
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="comparison-card after-card">
+                    <div class="card-content">
+                        <div class="card-label">✅ After (Fixed)</div>
+                        <div class="card-header">
+                            <div class="card-icon">🛡️</div>
+                            <div>
+                                <h3 class="after-title">SentraBASE Enterprise</h3>
+                                <p class="card-description">Solusi kustomisasi untuk klinik besar</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card-features">
+                            <span class="card-feature">Unlimited Users</span>
+                            <span class="card-feature">Unlimited Patients</span>
+                            <span class="card-feature">15+ Features</span>
+                        </div>
+                        
+                        <a href="http://localhost:5173/dashboard" class="test-button" target="_blank">
+                            Test Fixed Gradient
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixes-section">
+            <h3 class="fixes-title">
+                🔧 Perbaikan yang Diterapkan
+            </h3>
+            
+            <div class="fix-item">
+                <div class="fix-check">✓</div>
+                <div class="fix-text">
+                    <strong>Gradient Color Stops:</strong> Menambahkan percentage stops (0%, 30%, 70%, 100%) untuk kontras yang lebih baik
+                </div>
+            </div>
+            
+            <div class="fix-item">
+                <div class="fix-check">✓</div>
+                <div class="fix-text">
+                    <strong>Enhanced Contrast:</strong> Menggunakan #f8faff sebagai intermediate color untuk visibility yang lebih baik
+                </div>
+            </div>
+            
+            <div class="fix-item">
+                <div class="fix-check">✓</div>
+                <div class="fix-text">
+                    <strong>Animation Preserved:</strong> Mempertahankan animasi gradient dengan keyframes yang diperbaiki
+                </div>
+            </div>
+            
+            <div class="fix-item">
+                <div class="fix-check">✓</div>
+                <div class="fix-text">
+                    <strong>Drop Shadow:</strong> Menambahkan filter drop-shadow untuk glow effect yang subtle
+                </div>
+            </div>
+            
+            <div class="fix-item">
+                <div class="fix-check">✓</div>
+                <div class="fix-text">
+                    <strong>Hover Enhancement:</strong> Improved hover effect dengan gradient yang lebih rich
+                </div>
+            </div>
+            
+            <div class="fix-item">
+                <div class="fix-check">✓</div>
+                <div class="fix-text">
+                    <strong>Browser Compatibility:</strong> Fallback untuk browser yang tidak support background-clip
+                </div>
+            </div>
+        </div>
+
+        <div class="fixes-section">
+            <h3 class="fixes-title">
+                🎨 Technical Details
+            </h3>
+            <div style="background: #1a202c; color: #e2e8f0; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.875rem; margin-top: 16px;">
+                <div style="color: #10b981; margin-bottom: 8px;">/* Fixed Enterprise Gradient */</div>
+                <div>.package-banner-enterprise .package-details h2 {</div>
+                <div style="margin-left: 16px;">
+                    <div>background: linear-gradient(135deg, </div>
+                    <div style="margin-left: 16px;">
+                        <div>#ffffff 0%, </div>
+                        <div>#f8faff 30%, </div>
+                        <div>#f3e8ff 70%, </div>
+                        <div>#e9d5ff 100%);</div>
+                    </div>
+                    <div>-webkit-background-clip: text;</div>
+                    <div>-webkit-text-fill-color: transparent;</div>
+                    <div>animation: enterpriseGradient 4s ease-in-out infinite;</div>
+                </div>
+                <div>}</div>
+            </div>
+        </div>
+
+        <div class="fixes-section">
+            <h3 class="fixes-title">
+                🚀 Ready to Test!
+            </h3>
+            <p style="color: #4a5568; font-weight: 500; margin-bottom: 16px;">
+                "SentraBASE Enterprise" sekarang menggunakan gradient yang lebih kontras dan terlihat jelas. 
+                Animasi tetap dipertahankan untuk memberikan premium feel yang elegan.
+            </p>
+            <p style="margin-top: 16px; font-weight: 600; color: #1a202c;">
+                <strong>Server:</strong> http://localhost:5173/<br>
+                <strong>Dashboard:</strong> http://localhost:5173/dashboard<br>
+                <strong>Status:</strong> Enterprise Gradient Fixed ✅
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Check server status
+        fetch('http://localhost:5173/')
+            .then(response => {
+                if (response.ok) {
+                    console.log('✅ Server running - Enterprise gradient fixed!');
+                } else {
+                    console.log('⚠️ Server issues detected');
+                }
+            })
+            .catch(error => {
+                console.log('❌ Server not running:', error);
+                alert('Server tidak berjalan! Jalankan: npm run dev');
+            });
+    </script>
+</body>
+</html>

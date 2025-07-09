@@ -5,8 +5,6 @@ import { AuthProvider } from '@/components/auth/AuthProvider';
 import { SEOProvider } from '@/contexts/SEOContext';
 import { PaymentProvider } from '@/contexts/PaymentContext';
 import { PostPaymentProvider } from '@/contexts/PostPaymentContext';
-import { ProjectProgressProvider } from '@/contexts/ProjectProgressContext';
-import { PackageInfoProvider } from '@/contexts/PackageInfoContext';
 import SEOHead from '@/components/seo/SEOHead';
 import MedicalSchema from '@/components/seo/MedicalSchema';
 import Navbar from '@/components/sentrabase/layout/Navbar';
@@ -19,17 +17,14 @@ import PricingSection from '@/components/sentrabase/sections/PricingSection';
 import TrustSignalSection from '@/components/sentrabase/sections/TrustSignalSection';
 import FinalCTASection from '@/components/sentrabase/sections/FinalCTASection';
 import AdminRoute from '@/components/admin/AdminRoute';
-import PostPaymentRouterFinal from '@/components/router/PostPaymentRouterFinal';
-import PaymentDebugger from '@/components/debug/PaymentDebugger';
-import { useRouter } from '@/hooks/useRouter';
+import PostPaymentRouter from '@/components/router/PostPaymentRouter';
 import notificationManager from '@/services/notificationManager';
 
 function App() {
-  // Use custom router hook
-  const { currentPath } = useRouter();
-  
+  // Check current route
+  const currentPath = window.location.pathname;
   const isAdminRoute = currentPath === '/admin' || window.location.hash === '#admin';
-  const isPostPaymentRoute = ['/register', '/dashboard', '/login'].includes(currentPath);
+  const isPostPaymentRoute = ['/register', '/dashboard'].includes(currentPath);
 
   // Initialize notification manager
   React.useEffect(() => {
@@ -39,6 +34,7 @@ function App() {
       
       try {
         if (activity.type === 'new_customer') {
+          // New customer started
           console.log('🆕 New customer detected');
           notificationManager.trackNewCustomer({
             clinicName: activity.customerInfo?.clinicName || 'Unknown Clinic',
@@ -49,6 +45,7 @@ function App() {
             timestamp: activity.timestamp
           });
         } else if (activity.type === 'step_progress') {
+          // Customer progress
           console.log('📈 Customer progress:', activity.step);
           notificationManager.trackCustomerProgress({
             clinicName: activity.customerInfo?.clinicName || 'Unknown Clinic',
@@ -59,6 +56,7 @@ function App() {
             timestamp: activity.timestamp
           });
         } else if (activity.type === 'payment_completed') {
+          // Payment completed
           console.log('💳 Payment completed');
           notificationManager.trackPaymentCompleted({
             clinicName: activity.customerInfo?.clinicName || 'Unknown Clinic',
@@ -75,30 +73,8 @@ function App() {
       }
     };
 
-    // Test function untuk debugging
-    window.testCustomerTracking = () => {
-      console.log('🧪 Testing customer tracking...');
-      window.trackCustomerActivity({
-        type: 'new_customer',
-        customerInfo: {
-          clinicName: 'Test Klinik Debug',
-          contactPerson: 'Dr. Debug',
-          email: 'debug@test.com',
-          phone: '081234567890'
-        },
-        plan: { name: 'Professional' },
-        timestamp: Date.now()
-      });
-    };
-
     // Initialize notification manager
     notificationManager.init();
-
-    return () => {
-      // Cleanup
-      delete window.trackCustomerActivity;
-      delete window.testCustomerTracking;
-    };
   }, []);
 
   return (
@@ -107,62 +83,34 @@ function App() {
         <SEOProvider>
           <PaymentProvider>
             <PostPaymentProvider>
-              <ProjectProgressProvider>
-                <PackageInfoProvider>
-                  <div className="App">
-                    <SEOHead />
-                    <MedicalSchema 
-                      organizationType="MedicalOrganization"
-                      services={[
-                        "Electronic Medical Records (RME)",
-                        "Healthcare Data Security",
-                        "Medical Information Systems",
-                        "Clinical Documentation",
-                        "Healthcare IT Solutions"
-                      ]}
-                      specialties={[
-                        "Health Information Technology",
-                        "Medical Records Management",
-                        "Healthcare Data Security"
-                      ]}
-                    />
-                    
-                    {/* Handle different routes */}
-                    {isAdminRoute ? (
-                      <AdminRoute />
-                    ) : isPostPaymentRoute ? (
-                      <PostPaymentRouterFinal />
-                    ) : (
-                      <>
-                        {/* Main Landing Page */}
-                        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-800 to-slate-900 text-gray-100">
-                          <Navbar />
-                          <main id="main-content">
-                            <HeroSection />
-                            <ProblemSection />
-                            <SolutionSection />
-                            <CorePillarsSection />
-                            <PricingSection />
-                            <TrustSignalSection />
-                            <FinalCTASection />
-                          </main>
-                          <Footer />
-                          
-                          {/* Admin Access Button (Hidden) */}
-                          <div 
-                            onClick={() => window.location.hash = '#admin'}
-                            className="fixed bottom-4 right-4 w-4 h-4 opacity-0 cursor-pointer"
-                            title="Admin Access"
-                          />
-                        </div>
-                      </>
-                    )}
-                    
-                    <Toaster />
-                    <PaymentDebugger />
-                  </div>
-                </PackageInfoProvider>
-              </ProjectProgressProvider>
+              <div className="App">
+                <SEOHead />
+                <MedicalSchema />
+                
+                {/* Handle different routes */}
+                {isAdminRoute ? (
+                  <AdminRoute />
+                ) : isPostPaymentRoute ? (
+                  <PostPaymentRouter />
+                ) : (
+                  <>
+                    {/* Main Landing Page */}
+                    <Navbar />
+                    <main id="main-content">
+                      <HeroSection />
+                      <ProblemSection />
+                      <SolutionSection />
+                      <CorePillarsSection />
+                      <PricingSection />
+                      <TrustSignalSection />
+                      <FinalCTASection />
+                    </main>
+                    <Footer />
+                  </>
+                )}
+                
+                <Toaster />
+              </div>
             </PostPaymentProvider>
           </PaymentProvider>
         </SEOProvider>

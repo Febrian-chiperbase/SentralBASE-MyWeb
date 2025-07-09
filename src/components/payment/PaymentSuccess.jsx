@@ -1,9 +1,89 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Download, Calendar, Phone, Mail } from 'lucide-react';
+import { CheckCircle, Download, Calendar, Phone, Mail, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePostPayment } from '@/contexts/PostPaymentContext';
+import { useRouter } from '@/hooks/useRouter';
 
 const PaymentSuccess = ({ transactionData, onClose }) => {
+  const { storePaymentData } = usePostPayment();
+  const { navigate } = useRouter();
+  const [countdown, setCountdown] = React.useState(60); // 1 menit = 60 detik
+  const [isRedirecting, setIsRedirecting] = React.useState(false);
+  const [isPaused, setIsPaused] = React.useState(false);
+
+  useEffect(() => {
+    // Store payment data and setup countdown
+    if (transactionData) {
+      console.log('🔄 PaymentSuccess: Processing transaction data...', transactionData);
+      
+      const paymentInfo = {
+        customerName: transactionData.customerInfo?.contactPerson || transactionData.customerInfo?.name,
+        email: transactionData.customerInfo?.email,
+        phone: transactionData.customerInfo?.phone,
+        clinicName: transactionData.customerInfo?.clinicName,
+        transactionId: transactionData.transactionId,
+        plan: transactionData.plan,
+        amount: transactionData.pricing?.total,
+        paymentMethod: transactionData.paymentMethod,
+        orderId: `ORDER-${Date.now()}`
+      };
+
+      console.log('💾 PaymentSuccess: Storing payment data...', paymentInfo);
+      
+      // Store data in context
+      storePaymentData(paymentInfo);
+      
+      console.log('✅ PaymentSuccess: Payment data stored, starting countdown...');
+    }
+  }, [transactionData, storePaymentData]);
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (countdown > 0 && !isRedirecting && !isPaused) {
+      const timer = setTimeout(() => {
+        setCountdown(prev => {
+          const newCount = prev - 1;
+          
+          // Sound notification untuk countdown terakhir
+          if (newCount <= 10 && newCount > 0) {
+            // Beep sound untuk 10 detik terakhir
+            try {
+              const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+              audio.volume = 0.1;
+              audio.play().catch(() => {}); // Ignore errors
+            } catch (e) {
+              // Ignore audio errors
+            }
+          }
+          
+          return newCount;
+        });
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    } else if (countdown === 0 && !isRedirecting) {
+      // Auto redirect when countdown reaches 0
+      handleContinue();
+    }
+  }, [countdown, isRedirecting, isPaused]);
+
+  const handleContinue = () => {
+    if (isRedirecting) return; // Prevent multiple redirects
+    
+    console.log('🚀 PaymentSuccess: Redirecting to /register...');
+    setIsRedirecting(true);
+    
+    // Use router hook for navigation
+    navigate('/register');
+  };
+
+  // Format countdown untuk display
+  const formatCountdown = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
   const handleDownloadInvoice = () => {
     // Generate and download invoice
     console.log('Downloading invoice...', transactionData);
@@ -67,6 +147,87 @@ const PaymentSuccess = ({ transactionData, onClose }) => {
         </div>
       </div>
 
+      {/* Auto Redirect Notice dengan Countdown */}
+      <div className="bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20 rounded-lg p-6">
+        <div className="text-center">
+          <div className="flex items-center justify-center space-x-2 mb-3">
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+            <p className="text-blue-300 font-medium">
+              Auto Redirect Aktif
+            </p>
+          </div>
+          
+          {/* Countdown Display */}
+          <div className="mb-4">
+            <div className={`text-4xl font-bold mb-2 transition-colors duration-300 ${
+              countdown <= 10 ? 'text-red-400 animate-pulse' : 
+              countdown <= 30 ? 'text-yellow-400' : 'text-white'
+            }`}>
+              {formatCountdown(countdown)}
+            </div>
+            <p className={`text-sm transition-colors duration-300 ${
+              countdown <= 10 ? 'text-red-200' :
+              countdown <= 30 ? 'text-yellow-200' : 'text-blue-200'
+            }`}>
+              {countdown <= 10 ? 'Segera redirect...' :
+               countdown <= 30 ? 'Bersiap untuk redirect...' :
+               'Anda akan diarahkan ke halaman pendaftaran secara otomatis'}
+            </p>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-gray-700/50 rounded-full h-3 mb-3 overflow-hidden">
+            <motion.div
+              initial={{ width: '100%' }}
+              animate={{ width: `${(countdown / 60) * 100}%` }}
+              transition={{ duration: 1, ease: "linear" }}
+              className={`h-3 rounded-full transition-colors duration-300 ${
+                countdown <= 10 ? 'bg-gradient-to-r from-red-500 to-red-600' :
+                countdown <= 30 ? 'bg-gradient-to-r from-yellow-500 to-orange-500' :
+                'bg-gradient-to-r from-blue-500 to-indigo-500'
+              }`}
+            />
+          </div>
+
+          <p className="text-blue-300/80 text-xs mb-3">
+            Atau klik tombol di bawah untuk lanjut sekarang
+          </p>
+
+          {/* Pause/Resume Button */}
+          <button
+            onClick={() => setIsPaused(!isPaused)}
+            className="text-blue-300 hover:text-blue-200 text-xs underline transition-colors"
+          >
+            {isPaused ? '▶️ Lanjutkan countdown' : '⏸️ Pause countdown'}
+          </button>
+        </div>
+      </div>
+
+      {/* Continue Button */}
+      <motion.button
+        whileHover={{ scale: isRedirecting ? 1 : 1.05 }}
+        whileTap={{ scale: isRedirecting ? 1 : 0.95 }}
+        onClick={handleContinue}
+        disabled={isRedirecting}
+        className={`w-full font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2 mb-6 ${
+          isRedirecting 
+            ? 'bg-gray-600 cursor-not-allowed' 
+            : 'bg-blue-600 hover:bg-blue-700'
+        } text-white`}
+      >
+        {isRedirecting ? (
+          <>
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+            <span>Mengarahkan...</span>
+          </>
+        ) : (
+          <>
+            <span>Lanjutkan ke Pendaftaran Sekarang</span>
+            <ArrowRight className="w-5 h-5" />
+          </>
+        )}
+      </motion.button>
+
       {/* Next Steps */}
       <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-cyan-400 mb-4">Langkah Selanjutnya</h3>
@@ -76,8 +237,8 @@ const PaymentSuccess = ({ transactionData, onClose }) => {
               1
             </div>
             <div>
-              <p className="font-medium">Tim kami akan menghubungi Anda dalam 1x24 jam</p>
-              <p className="text-gray-400">untuk konfirmasi dan penjadwalan implementasi</p>
+              <p className="font-medium">Buat password akun Anda</p>
+              <p className="text-gray-400">untuk mengamankan akses ke sistem</p>
             </div>
           </div>
           <div className="flex items-start">
@@ -85,8 +246,8 @@ const PaymentSuccess = ({ transactionData, onClose }) => {
               2
             </div>
             <div>
-              <p className="font-medium">Setup sistem RME di klinik Anda</p>
-              <p className="text-gray-400">termasuk instalasi, konfigurasi, dan migrasi data</p>
+              <p className="font-medium">Akses dashboard pesanan</p>
+              <p className="text-gray-400">lihat status dan informasi lengkap pesanan Anda</p>
             </div>
           </div>
           <div className="flex items-start">
@@ -94,8 +255,8 @@ const PaymentSuccess = ({ transactionData, onClose }) => {
               3
             </div>
             <div>
-              <p className="font-medium">Training untuk tim medis dan admin</p>
-              <p className="text-gray-400">pelatihan lengkap penggunaan sistem RME</p>
+              <p className="font-medium">Tim kami akan menghubungi Anda</p>
+              <p className="text-gray-400">dalam 1x24 jam untuk setup sistem</p>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 {
-  "name": "SentraBASE - Sistem RME & Keamanan Klinik",
+  "name": "SentraBASE - Healthcare Management System",
   "short_name": "SentraBASE",
-  "description": "Platform Rekam Medis Elektronik dengan keamanan tingkat tinggi untuk klinik dan rumah sakit",
+  "description": "Sistem manajemen klinik dan rumah sakit yang aman dan terpercaya",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -14,12 +14,9 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#1e293b",
-  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "background_color": "#1e293b",
   "display": "standalone",
   "start_url": "/",
-  "scope": "/",
-  "orientation": "portrait-primary",
-  "categories": ["medical", "healthcare", "business", "productivity"],
-  "lang": "id"
+  "scope": "/"
 }

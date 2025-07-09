@@ -1,3 +1,4 @@
-# This is a placeholder for the favicon file
-# In a real project, this would be a PNG image file
-# For now, we'll create an empty file to prevent 404 errors
+<svg width="192" height="192" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" fill="#3b82f6"/>
+  <text x="96" y="110" font-family="Arial" font-size="24" fill="white" text-anchor="middle">SB</text>
+</svg>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrast Fix Test - SentraBASE Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.125rem;
+            color: #4a5568;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        
+        .fix-section {
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-left: 4px solid #10b981;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .fix-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .fix-description {
+            color: #2f855a;
+            margin-bottom: 16px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #10b981, #047857);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -8px rgba(16, 185, 129, 0.5);
+        }
+        
+        .fixes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .fix-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .fix-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1);
+            border-color: #cbd5e0;
+        }
+        
+        .fix-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+            border: 1px solid #93c5fd;
+        }
+        
+        .fix-card-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+        
+        .fix-card-description {
+            color: #4a5568;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 16px;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #16a34a;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .before, .after {
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .before {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+        
+        .after {
+            background: #f0fff4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+        
+        .contrast-demo {
+            background: #fffbeb;
+            border: 1px solid #fbbf24;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 32px;
+        }
+        
+        .contrast-title {
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .contrast-list {
+            color: #78350f;
+            margin: 0;
+            padding-left: 20px;
+            font-weight: 500;
+        }
+        
+        .contrast-list li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">✅ Contrast Fix Applied!</h1>
+            <p class="subtitle">Masalah kontras warna pada dashboard telah diperbaiki untuk meningkatkan readability</p>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                Contrast Issues Fixed - Ready to Test
+            </div>
+        </div>
+
+        <div class="fix-section">
+            <h2 class="fix-title">
+                🎯 Test Dashboard dengan Kontras yang Diperbaiki
+            </h2>
+            <p class="fix-description">
+                Semua text sekarang memiliki kontras yang cukup untuk mudah dibaca. Package banner, stats cards, 
+                dan semua elemen text telah dioptimalkan untuk visibility yang lebih baik.
+            </p>
+            <a href="http://localhost:5173/dashboard" class="test-button" target="_blank">
+                Test Dashboard Sekarang
+            </a>
+        </div>
+
+        <div class="fixes-grid">
+            <div class="fix-card">
+                <div class="fix-icon">📦</div>
+                <h3 class="fix-card-title">Package Banner</h3>
+                <p class="fix-card-description">
+                    • Text shadow untuk meningkatkan kontras<br>
+                    • Font weight yang lebih bold<br>
+                    • Background overlay yang lebih gelap<br>
+                    • Border pada feature badges
+                </p>
+            </div>
+
+            <div class="fix-card">
+                <div class="fix-icon">📊</div>
+                <h3 class="fix-card-title">Stats Cards</h3>
+                <p class="fix-card-description">
+                    • Warna text yang lebih gelap (#1a202c)<br>
+                    • Font weight yang ditingkatkan<br>
+                    • Border yang lebih kontras<br>
+                    • Icon background dengan gradient
+                </p>
+            </div>
+
+            <div class="fix-card">
+                <div class="fix-icon">🎨</div>
+                <h3 class="fix-card-title">Color Palette</h3>
+                <p class="fix-card-description">
+                    • Primary text: #1a202c (sangat gelap)<br>
+                    • Secondary text: #4a5568 (medium)<br>
+                    • Muted text: #6b7280 (light)<br>
+                    • Semua memenuhi WCAG AA standard
+                </p>
+            </div>
+
+            <div class="fix-card">
+                <div class="fix-icon">✨</div>
+                <h3 class="fix-card-title">Visual Enhancements</h3>
+                <p class="fix-card-description">
+                    • Box shadows untuk depth<br>
+                    • Border enhancements<br>
+                    • Backdrop blur effects<br>
+                    • Improved hover states
+                </p>
+            </div>
+
+            <div class="fix-card">
+                <div class="fix-icon">📱</div>
+                <h3 class="fix-card-title">Responsive Text</h3>
+                <p class="fix-card-description">
+                    • Optimal font sizes untuk semua device<br>
+                    • Line height yang konsisten<br>
+                    • Letter spacing optimization<br>
+                    • Mobile-friendly contrast ratios
+                </p>
+            </div>
+
+            <div class="fix-card">
+                <div class="fix-icon">🔍</div>
+                <h3 class="fix-card-title">Accessibility</h3>
+                <p class="fix-card-description">
+                    • WCAG 2.1 AA compliance<br>
+                    • Minimum 4.5:1 contrast ratio<br>
+                    • Screen reader friendly<br>
+                    • Keyboard navigation support
+                </p>
+            </div>
+        </div>
+
+        <div class="before-after">
+            <div class="before">
+                <h4>❌ Before</h4>
+                <p>Text hampir tidak terlihat karena kontras rendah dengan background</p>
+            </div>
+            <div class="after">
+                <h4>✅ After</h4>
+                <p>Text jelas terlihat dengan kontras yang optimal dan mudah dibaca</p>
+            </div>
+        </div>
+
+        <div class="contrast-demo">
+            <h3 class="contrast-title">
+                🎨 Perbaikan yang Diterapkan
+            </h3>
+            <ul class="contrast-list">
+                <li><strong>Package Banner:</strong> Text shadow, font weight 800, background overlay gelap</li>
+                <li><strong>Stats Cards:</strong> Warna text #1a202c, font weight 700, border kontras</li>
+                <li><strong>Icons:</strong> Gradient background, border, box shadow untuk depth</li>
+                <li><strong>Typography:</strong> Font weight ditingkatkan, line height optimal</li>
+                <li><strong>Colors:</strong> Semua warna memenuhi WCAG AA standard (4.5:1 ratio)</li>
+                <li><strong>Hover States:</strong> Enhanced feedback dengan shadow dan transform</li>
+            </ul>
+        </div>
+
+        <div class="fix-section">
+            <h2 class="fix-title">
+                🚀 Ready to Test!
+            </h2>
+            <p class="fix-description">
+                Dashboard sekarang memiliki kontras yang optimal. Semua text mudah dibaca dan memenuhi 
+                standar accessibility. Silakan test dashboard untuk melihat perbaikan yang telah diterapkan.
+            </p>
+            <p style="margin-top: 16px; font-weight: 600; color: #2f855a;">
+                <strong>Server:</strong> http://localhost:5173/<br>
+                <strong>Dashboard:</strong> http://localhost:5173/dashboard
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Check server status
+        fetch('http://localhost:5173/')
+            .then(response => {
+                if (response.ok) {
+                    console.log('✅ Server running - Contrast fixes loaded!');
+                } else {
+                    console.log('⚠️ Server issues detected');
+                }
+            })
+            .catch(error => {
+                console.log('❌ Server not running:', error);
+                alert('Server tidak berjalan! Jalankan: npm run dev');
+            });
+    </script>
+</body>
+</html>

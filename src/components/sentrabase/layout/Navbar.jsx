@@ -46,6 +46,16 @@ const Navbar = () => {
                   {link.label}
                 </a>
               ))}
+              
+              {/* Customer Login Button */}
+              <Button
+                onClick={() => window.location.href = '/login'}
+                variant="outline"
+                className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white font-medium px-4 py-2 rounded-lg transition-all duration-300"
+              >
+                Customer Login
+              </Button>
+              
               <Button
                 onClick={handleScheduleDemo}
                 className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
@@ -79,6 +89,19 @@ const Navbar = () => {
                     {link.label}
                   </a>
                 ))}
+                
+                {/* Customer Login Button - Mobile */}
+                <Button
+                  onClick={() => {
+                    window.location.href = '/login';
+                    setIsMenuOpen(false);
+                  }}
+                  variant="outline"
+                  className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white font-medium px-4 py-2 rounded-lg transition-all duration-300"
+                >
+                  Customer Login
+                </Button>
+                
                 <Button
                   onClick={() => {
                     handleScheduleDemo();

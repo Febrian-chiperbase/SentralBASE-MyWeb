@@ -1,0 +1,122 @@
+/* Dashboard Text Visibility Fixes */
+
+/* Package Information Section */
+.package-info-card {
+  background-color: white !important;
+  color: #1f2937 !important; /* gray-800 */
+}
+
+.package-info-card .package-info-label {
+  color: #374151 !important; /* gray-700 */
+  font-weight: 500 !important;
+}
+
+.package-info-card .package-info-value {
+  color: #111827 !important; /* gray-900 */
+  font-weight: 600 !important;
+}
+
+/* Order Details Section */
+.order-details-card {
+  background-color: white !important;
+  color: #1f2937 !important; /* gray-800 */
+}
+
+.order-details-card .order-detail-label {
+  color: #374151 !important; /* gray-700 */
+  font-weight: 500 !important;
+}
+
+.order-details-card .order-detail-value {
+  color: #111827 !important; /* gray-900 */
+  font-weight: 600 !important;
+}
+
+/* Ensure all text in white backgrounds is dark */
+.bg-white * {
+  color: inherit;
+}
+
+.bg-white .text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.bg-white .text-gray-700 {
+  color: #374151 !important;
+}
+
+.bg-white .text-gray-900 {
+  color: #111827 !important;
+}
+
+/* Force all text elements to be visible */
+.bg-white span:not(.bg-green-100):not(.bg-blue-100):not(.bg-purple-100) {
+  color: #111827 !important;
+}
+
+/* Package Badge Text Visibility */
+.package-badge {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  color: #1e40af !important;
+  border: 1px solid rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Status Card Text */
+.status-card {
+  background-color: white !important;
+}
+
+.status-card .status-label {
+  color: #374151 !important;
+  font-weight: 500 !important;
+}
+
+.status-card .status-value {
+  color: #111827 !important;
+  font-weight: 600 !important;
+}
+
+/* Contact Info Card */
+.contact-info-card {
+  background-color: white !important;
+}
+
+.contact-info-card .contact-label {
+  color: #374151 !important;
+  font-weight: 500 !important;
+}
+
+.contact-info-card .contact-value {
+  color: #111827 !important;
+  font-weight: 600 !important;
+}
+
+/* Debug: Highlight text visibility issues */
+.debug-text-visibility {
+  background-color: yellow !important;
+  color: black !important;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+/* Emergency fix for all white background cards */
+.bg-white.rounded-xl.shadow-sm {
+  background-color: white !important;
+}
+
+.bg-white.rounded-xl.shadow-sm * {
+  color: #111827 !important;
+}
+
+.bg-white.rounded-xl.shadow-sm .text-gray-600,
+.bg-white.rounded-xl.shadow-sm .text-gray-700,
+.bg-white.rounded-xl.shadow-sm .text-gray-900 {
+  color: #111827 !important;
+}
+
+/* Specific fix for order details values */
+.bg-white .font-mono,
+.bg-white .font-medium,
+.bg-white .font-semibold {
+  color: #111827 !important;
+}

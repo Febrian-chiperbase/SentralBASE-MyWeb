@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { usePayment } from '@/contexts/PaymentContext';
 import { toast } from '@/components/ui/use-toast';
+import PaymentSuccess from './PaymentSuccess';
 
 const PaymentModal = ({ isOpen, onClose }) => {
   const {
@@ -24,6 +25,36 @@ const PaymentModal = ({ isOpen, onClose }) => {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [formErrors, setFormErrors] = useState({});
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const [transactionData, setTransactionData] = useState(null);
+
+  // Show PaymentSuccess if payment completed
+  if (paymentCompleted && transactionData) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            className="bg-slate-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+          >
+            <div className="p-6">
+              <PaymentSuccess 
+                transactionData={transactionData} 
+                onClose={onClose}
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
 
   if (!isOpen || !selectedPlan) return null;
 
@@ -125,11 +156,29 @@ const PaymentModal = ({ isOpen, onClose }) => {
     const result = await processPayment(paymentData);
     
     if (result.success) {
-      toast({
-        title: "Pembayaran Berhasil!",
-        description: `Terima kasih! Tim kami akan menghubungi Anda untuk setup akun RME.`,
-      });
-      onClose();
+      // Prepare transaction data for PaymentSuccess component
+      const transactionInfo = {
+        transactionId: result.transactionId || `TXN-${Date.now()}`,
+        customerInfo: customerInfo,
+        plan: selectedPlan,
+        pricing: pricing,
+        paymentMethod: paymentMethod,
+        timestamp: new Date().toISOString()
+      };
+      
+      setTransactionData(transactionInfo);
+      setPaymentCompleted(true);
+      
+      // Track payment completion
+      if (window.trackCustomerActivity) {
+        window.trackCustomerActivity({
+          type: 'payment_completed',
+          customerInfo: customerInfo,
+          plan: selectedPlan,
+          amount: pricing.total,
+          timestamp: Date.now()
+        });
+      }
     } else {
       toast({
         title: "Pembayaran Gagal",

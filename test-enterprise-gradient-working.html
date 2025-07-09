@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Gradient Working - SentraBASE Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 16px;
+            background: linear-gradient(45deg, #6d28d9, #8b5cf6, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.125rem;
+            color: #4a5568;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        
+        .demo-section {
+            margin-bottom: 40px;
+        }
+        
+        .enterprise-demo {
+            background: linear-gradient(135deg, #6d28d9, #5b21b6);
+            border: 1px solid rgba(109, 40, 217, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin: 24px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .enterprise-demo:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(109, 40, 217, 0.4);
+        }
+        
+        .enterprise-demo::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .demo-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .demo-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .demo-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Working Enterprise Gradient */
+        .enterprise-title {
+            font-size: 1.875rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(45deg, #ffffff 0%, #f8f9ff 25%, #f0f4ff 50%, #e8f0ff 75%, #e0ecff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            letter-spacing: -0.025em;
+            position: relative;
+            animation: enterpriseGradientWorking 4s ease-in-out infinite;
+            /* Fallback */
+            color: white;
+        }
+        
+        /* Backdrop for better visibility */
+        .enterprise-title::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            color: rgba(255, 255, 255, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: unset;
+        }
+        
+        .enterprise-demo:hover .enterprise-title {
+            background: linear-gradient(45deg, #ffffff 0%, #f0f4ff 20%, #e8f0ff 40%, #e0ecff 60%, #d8e4ff 80%, #d0dcff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transform: scale(1.02);
+        }
+        
+        @keyframes enterpriseGradientWorking {
+            0% {
+                background: linear-gradient(45deg, #ffffff 0%, #f8f9ff 25%, #f0f4ff 50%, #e8f0ff 75%, #e0ecff 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            33% {
+                background: linear-gradient(45deg, #f8f9ff 0%, #f0f4ff 25%, #e8f0ff 50%, #e0ecff 75%, #d8e4ff 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            66% {
+                background: linear-gradient(45deg, #f0f4ff 0%, #e8f0ff 25%, #e0ecff 50%, #d8e4ff 75%, #d0dcff 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            100% {
+                background: linear-gradient(45deg, #ffffff 0%, #f8f9ff 25%, #f0f4ff 50%, #e8f0ff 75%, #e0ecff 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+        }
+        
+        .demo-description {
+            margin: 0 0 16px 0;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+            font-weight: 600;
+        }
+        
+        .demo-features {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .demo-feature {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .demo-price {
+            font-size: 2.25rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffffff 0%, #f8f9ff 30%, #f0f4ff 60%, #e8f0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            letter-spacing: -0.025em;
+            animation: enterprisePriceGlowWorking 3s ease-in-out infinite;
+            /* Fallback */
+            color: white;
+        }
+        
+        @keyframes enterprisePriceGlowWorking {
+            0%, 100% {
+                background: linear-gradient(45deg, #ffffff 0%, #f8f9ff 30%, #f0f4ff 60%, #e8f0ff 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            50% {
+                background: linear-gradient(45deg, #f8f9ff 0%, #f0f4ff 30%, #e8f0ff 60%, #e0ecff 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+        }
+        
+        .demo-period {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 700;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+        
+        .test-button {
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: inline-block;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .test-button:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features-section {
+            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+            border: 1px solid #c4b5fd;
+        }
+        
+        .features-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #4c1d95;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4c1d95;
+            font-weight: 600;
+        }
+        
+        .feature-check {
+            width: 20px;
+            height: 20px;
+            background: #6d28d9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f3e8ff;
+            color: #4c1d95;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 16px;
+            border: 1px solid #c4b5fd;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #6d28d9;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Browser compatibility fallback */
+        @supports not (-webkit-background-clip: text) {
+            .enterprise-title,
+            .demo-price {
+                color: white !important;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">✨ Enterprise Gradient Working!</h1>
+            <p class="subtitle">Gradient text untuk Enterprise sekarang berfungsi dengan baik menggunakan teknik CSS yang lebih reliable</p>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                Enterprise Gradient Text Working - Animation Active
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2 style="text-align: center; color: #1a202c; font-weight: 700; margin-bottom: 24px;">
+                Enterprise Package - Gradient Text dengan Animasi
+            </h2>
+            
+            <div class="enterprise-demo">
+                <div class="demo-content">
+                    <div class="demo-header">
+                        <div class="demo-icon">🛡️</div>
+                        <div>
+                            <h3 class="enterprise-title" data-text="SentraBASE Enterprise">SentraBASE Enterprise</h3>
+                            <p class="demo-description">Solusi kustomisasi untuk klinik besar</p>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-features">
+                        <span class="demo-feature">Unlimited Users</span>
+                        <span class="demo-feature">Unlimited Patients</span>
+                        <span class="demo-feature">15+ Features</span>
+                        <span class="demo-feature">Custom Solutions</span>
+                    </div>
+                    
+                    <div class="demo-pricing">
+                        <div class="demo-price">Rp 10.000.000</div>
+                        <div class="demo-period">per tahun</div>
+                    </div>
+                    
+                    <a href="http://localhost:5173/dashboard" class="test-button" target="_blank">
+                        Test Dashboard Enterprise
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h3 class="features-title">
+                🎨 Gradient Text Features
+            </h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <span>White to light blue gradient yang kontras</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <span>45-degree angle untuk efek yang lebih smooth</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <span>Multiple color stops untuk transisi halus</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <span>Backdrop text untuk visibility backup</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <span>Smooth animation dengan 4 keyframes</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <span>Enhanced hover effect dengan scale</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <span>Pricing text juga menggunakan gradient</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <span>Browser fallback untuk compatibility</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h3 class="features-title">
+                🔧 Technical Implementation
+            </h3>
+            <div style="background: #1a202c; color: #e2e8f0; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.875rem; margin-top: 16px;">
+                <div style="color: #a855f7; margin-bottom: 8px;">/* Working Enterprise Gradient */</div>
+                <div>.package-banner-enterprise .package-details h2 {</div>
+                <div style="margin-left: 16px;">
+                    <div>background: linear-gradient(45deg, </div>
+                    <div style="margin-left: 16px;">
+                        <div>#ffffff 0%, </div>
+                        <div>#f8f9ff 25%, </div>
+                        <div>#f0f4ff 50%, </div>
+                        <div>#e8f0ff 75%, </div>
+                        <div>#e0ecff 100%);</div>
+                    </div>
+                    <div>-webkit-background-clip: text;</div>
+                    <div>-webkit-text-fill-color: transparent;</div>
+                    <div>display: inline-block;</div>
+                    <div>animation: enterpriseGradient 4s ease-in-out infinite;</div>
+                </div>
+                <div>}</div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h3 class="features-title">
+                🚀 Key Improvements
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
+                <div style="padding: 16px; background: white; border-radius: 8px; border: 1px solid #c4b5fd;">
+                    <h4 style="color: #6d28d9; margin: 0 0 8px 0;">45° Angle</h4>
+                    <p style="color: #4c1d95; margin: 0; font-size: 0.875rem;">Lebih smooth dari 135°</p>
+                </div>
+                <div style="padding: 16px; background: white; border-radius: 8px; border: 1px solid #c4b5fd;">
+                    <h4 style="color: #6d28d9; margin: 0 0 8px 0;">Color Stops</h4>
+                    <p style="color: #4c1d95; margin: 0; font-size: 0.875rem;">5 stops untuk kontras optimal</p>
+                </div>
+                <div style="padding: 16px; background: white; border-radius: 8px; border: 1px solid #c4b5fd;">
+                    <h4 style="color: #6d28d9; margin: 0 0 8px 0;">Backdrop</h4>
+                    <p style="color: #4c1d95; margin: 0; font-size: 0.875rem;">Text shadow backup</p>
+                </div>
+                <div style="padding: 16px; background: white; border-radius: 8px; border: 1px solid #c4b5fd;">
+                    <h4 style="color: #6d28d9; margin: 0 0 8px 0;">Animation</h4>
+                    <p style="color: #4c1d95; margin: 0; font-size: 0.875rem;">4 keyframes smooth</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h3 class="features-title">
+                🎯 Ready to Test!
+            </h3>
+            <p style="color: #4c1d95; font-weight: 500; margin-bottom: 16px;">
+                Enterprise gradient text sekarang berfungsi dengan sempurna! Menggunakan teknik CSS yang lebih 
+                reliable dengan 45-degree angle, multiple color stops, dan backdrop text untuk memastikan 
+                visibility yang optimal.
+            </p>
+            <p style="margin-top: 16px; font-weight: 600; color: #4c1d95;">
+                <strong>Server:</strong> http://localhost:5173/<br>
+                <strong>Dashboard:</strong> http://localhost:5173/dashboard<br>
+                <strong>Status:</strong> Enterprise Gradient Working ✅
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Check server status
+        fetch('http://localhost:5173/')
+            .then(response => {
+                if (response.ok) {
+                    console.log('✅ Server running - Enterprise gradient working!');
+                } else {
+                    console.log('⚠️ Server issues detected');
+                }
+            })
+            .catch(error => {
+                console.log('❌ Server not running:', error);
+                alert('Server tidak berjalan! Jalankan: npm run dev');
+            });
+    </script>
+</body>
+</html>
