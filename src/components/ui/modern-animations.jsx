@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 // Fade In Animation
@@ -408,32 +408,57 @@ export const AnimatedProgressBar = ({
   </div>
 );
 
-// Count Up Animation
+// Count Up Animation with Currency Formatting
 export const CountUp = ({ 
   from = 0,
   to,
   duration = 2,
-  className = ''
+  className = '',
+  formatCurrency = false
 }) => {
+  const [count, setCount] = useState(from);
+
+  useEffect(() => {
+    let startTime;
+    let animationFrame;
+
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const currentCount = Math.round(from + (to - from) * easeOut);
+      
+      setCount(currentCount);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [from, to, duration]);
+
+  const formatNumber = (num) => {
+    if (formatCurrency) {
+      return new Intl.NumberFormat('id-ID').format(num);
+    }
+    return num.toString();
+  };
+
   return (
     <motion.span
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className={className}
     >
-      <motion.span
-        initial={{ textContent: from }}
-        animate={{ textContent: to }}
-        transition={{ 
-          duration,
-          ease: "easeOut"
-        }}
-        onUpdate={(latest) => {
-          if (typeof latest.textContent === 'number') {
-            latest.textContent = Math.round(latest.textContent);
-          }
-        }}
-      />
+      {formatNumber(count)}
     </motion.span>
   );
 };

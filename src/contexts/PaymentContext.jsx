@@ -111,6 +111,7 @@ export const PaymentProvider = ({ children }) => {
   ];
 
   // Payment methods dengan fee yang akurat
+  // Payment methods dengan DOKU (termurah di Indonesia)
   const paymentMethods = [
     {
       id: 'manual_transfer',
@@ -121,57 +122,53 @@ export const PaymentProvider = ({ children }) => {
       fee: 'Gratis',
       feeAmount: 0,
       recommended: true,
-      provider: 'manual'
+      provider: 'manual',
+      cheapest: true
     },
     {
-      id: 'bca_va',
+      id: 'doku_ewallet_ovo',
+      name: 'OVO via DOKU',
+      description: 'TERMURAH - Bayar dengan OVO (Fee Rp 1.500)',
+      icon: '📱',
+      processingTime: 'Instan',
+      fee: 'Rp 1.500',
+      feeAmount: 1500,
+      recommended: true,
+      provider: 'doku',
+      cheapest: true
+    },
+    {
+      id: 'doku_ewallet_dana',
+      name: 'DANA via DOKU',
+      description: 'TERMURAH - Bayar dengan DANA (Fee Rp 1.500)',
+      icon: '📱',
+      processingTime: 'Instan',
+      fee: 'Rp 1.500',
+      feeAmount: 1500,
+      recommended: true,
+      provider: 'doku',
+      cheapest: true
+    },
+    {
+      id: 'doku_va_bca',
       name: 'BCA Virtual Account',
-      description: 'Otomatis via Virtual Account BCA',
+      description: 'MURAH - Transfer via VA BCA (Fee Rp 2.500)',
       icon: '🏦',
       processingTime: 'Instan',
-      fee: 'Rp 2.500 - Rp 4.000',
-      feeAmount: 2500, // DOKU fee (terendah)
-      provider: 'auto'
+      fee: 'Rp 2.500',
+      feeAmount: 2500,
+      provider: 'doku',
+      cheapest: true
     },
     {
-      id: 'bca_klikbca',
-      name: 'BCA KlikBCA',
-      description: 'Internet Banking BCA',
-      icon: '💻',
-      processingTime: 'Instan',
-      fee: 'Gratis',
-      feeAmount: 0,
-      provider: 'auto'
-    },
-    {
-      id: 'credit_card',
-      name: 'Kartu Kredit',
-      description: 'Visa, Mastercard, JCB',
+      id: 'doku_credit_card',
+      name: 'Kartu Kredit via DOKU',
+      description: 'Visa, Mastercard, JCB (Fee 2.5%)',
       icon: '💳',
       processingTime: 'Instan',
-      fee: '2.8% - 2.9%',
-      feeAmount: 0.028, // Percentage
-      provider: 'auto'
-    },
-    {
-      id: 'ovo',
-      name: 'OVO',
-      description: 'E-wallet OVO',
-      icon: '📱',
-      processingTime: 'Instan',
-      fee: 'Rp 1.500 - Rp 2.500',
-      feeAmount: 1500, // DOKU fee (terendah)
-      provider: 'auto'
-    },
-    {
-      id: 'dana',
-      name: 'DANA',
-      description: 'E-wallet DANA',
-      icon: '📱',
-      processingTime: 'Instan',
-      fee: 'Rp 1.500 - Rp 2.500',
-      feeAmount: 1500, // DOKU fee (terendah)
-      provider: 'auto'
+      fee: '2.5% + Rp 2.300',
+      feeAmount: 0.025, // Percentage
+      provider: 'doku'
     }
   ];
 

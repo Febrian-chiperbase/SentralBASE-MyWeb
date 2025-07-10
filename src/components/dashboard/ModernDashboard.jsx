@@ -35,9 +35,11 @@ import {
   Timer,
   CheckCircle2
 } from 'lucide-react';
+import invoiceService from '@/services/InvoiceService';
 import { usePostPayment } from '@/contexts/PostPaymentContext';
 import { useProjectProgress } from '@/contexts/ProjectProgressContext';
 import { usePackageInfo } from '@/contexts/PackageInfoContext';
+import UpgradeModal from './UpgradeModal';
 import { 
   FadeIn, 
   ScaleIn, 
@@ -111,8 +113,56 @@ const ModernDashboard = () => {
     simulateProgress();
   }, [simulateProgress]);
 
-  const handleDownloadInvoice = () => {
-    console.log('Downloading invoice...', paymentData);
+  const handleDownloadInvoice = async () => {
+    try {
+      // Debug: Log payment data structure
+      console.log('💳 Payment data for invoice:', paymentData);
+      console.log('📦 Plan info:', paymentData.plan);
+      console.log('👤 Customer info:', paymentData.customerInfo);
+      console.log('📊 Status:', paymentData.status);
+      
+      // Show loading state
+      const loadingToast = document.createElement('div');
+      loadingToast.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+      loadingToast.textContent = 'Menyiapkan invoice...';
+      document.body.appendChild(loadingToast);
+
+      // Generate and download invoice
+      const result = await invoiceService.downloadInvoice(paymentData);
+      
+      // Remove loading toast
+      document.body.removeChild(loadingToast);
+
+      if (result.success) {
+        // Show success message
+        const successToast = document.createElement('div');
+        successToast.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+        successToast.textContent = '✅ Invoice berhasil dibuka!';
+        document.body.appendChild(successToast);
+        
+        setTimeout(() => {
+          if (document.body.contains(successToast)) {
+            document.body.removeChild(successToast);
+          }
+        }, 3000);
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Error downloading invoice:', error);
+      
+      // Show error message
+      const errorToast = document.createElement('div');
+      errorToast.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+      errorToast.textContent = `❌ Error: ${error.message}`;
+      document.body.appendChild(errorToast);
+      
+      setTimeout(() => {
+        if (document.body.contains(errorToast)) {
+          document.body.removeChild(errorToast);
+        }
+      }, 5000);
+    }
   };
 
   const handleScheduleDemo = () => {
@@ -132,8 +182,37 @@ const ModernDashboard = () => {
     }
   };
 
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
   const handleUpgradePackage = () => {
-    console.log('Upgrade package requested');
+    setShowUpgradeModal(true);
+  };
+
+  const handleConfirmUpgrade = (selectedPackage) => {
+    // Instead of redirecting to main page, handle upgrade within dashboard context
+    const confirmUpgrade = window.confirm(
+      `Apakah Anda yakin ingin upgrade ke ${selectedPackage.displayName}?\n\n` +
+      `Biaya tambahan: Rp ${new Intl.NumberFormat('id-ID').format(selectedPackage.price - packageInfo.price)}\n\n` +
+      `Anda akan diarahkan ke halaman pembayaran untuk melanjutkan upgrade.`
+    );
+    
+    if (confirmUpgrade) {
+      // Store upgrade context in localStorage
+      const upgradeContext = {
+        fromPackage: packageInfo,
+        toPackage: selectedPackage,
+        upgradeType: 'package_upgrade',
+        timestamp: new Date().toISOString(),
+        customerId: paymentData.customerInfo?.email || 'unknown'
+      };
+      
+      localStorage.setItem('pendingUpgrade', JSON.stringify(upgradeContext));
+      
+      // Redirect to payment page with upgrade context
+      window.location.href = `/payment?type=upgrade&package=${selectedPackage.id}&from=${packageInfo.id}`;
+    }
+    
+    setShowUpgradeModal(false);
   };
 
   if (!paymentData || isLoading) {
@@ -267,7 +346,7 @@ const ModernDashboard = () => {
                   
                   <div className="package-pricing">
                     <h3 className="package-price">
-                      Rp <CountUp to={packageInfo.price} duration={2} />
+                      Rp <CountUp to={packageInfo.price} duration={2} formatCurrency={true} />
                     </h3>
                     <p className="package-period">per tahun</p>
                     {packageComparison.upgrades.length > 0 && (
@@ -352,6 +431,15 @@ const ModernDashboard = () => {
           </StaggerItem>
         </StaggerContainer>
       </div>
+
+      {/* Upgrade Modal */}
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        currentPackage={packageInfo}
+        availableUpgrades={packageComparison.upgrades}
+        onConfirmUpgrade={handleConfirmUpgrade}
+      />
     </div>
   );
 };

@@ -10,10 +10,10 @@ export const PackageInfoProvider = ({ children }) => {
       name: 'Starter',
       displayName: 'SentraBASE Starter',
       description: 'Paket dasar untuk klinik kecil',
-      price: 2500000,
+      price: 15000000, // Updated to match main page yearly price
       billingCycle: 'yearly',
-      maxUsers: 5,
-      maxPatients: 1000,
+      maxUsers: 3,
+      maxPatients: 500,
       features: [
         'Rekam Medis Elektronik (RME)',
         'Manajemen Pasien',
@@ -43,9 +43,9 @@ export const PackageInfoProvider = ({ children }) => {
       name: 'Professional',
       displayName: 'SentraBASE Professional',
       description: 'Paket lengkap untuk klinik menengah',
-      price: 5000000,
+      price: 30000000, // Updated to match main page yearly price
       billingCycle: 'yearly',
-      maxUsers: 15,
+      maxUsers: 'Unlimited',
       maxPatients: 5000,
       features: [
         'Semua fitur Starter',
@@ -76,8 +76,8 @@ export const PackageInfoProvider = ({ children }) => {
       id: 'enterprise',
       name: 'Enterprise',
       displayName: 'SentraBASE Enterprise',
-      description: 'Solusi enterprise untuk rumah sakit',
-      price: 12000000,
+      description: 'Solusi kustomisasi untuk klinik besar',
+      price: 50000000, // Custom pricing for enterprise
       billingCycle: 'yearly',
       maxUsers: 'Unlimited',
       maxPatients: 'Unlimited',

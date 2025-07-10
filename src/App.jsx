@@ -18,6 +18,7 @@ import CorePillarsSection from '@/components/sentrabase/sections/CorePillarsSect
 import PricingSection from '@/components/sentrabase/sections/PricingSection';
 import TrustSignalSection from '@/components/sentrabase/sections/TrustSignalSection';
 import FinalCTASection from '@/components/sentrabase/sections/FinalCTASection';
+import UpgradePayment from '@/components/payment/UpgradePayment';
 import AdminRoute from '@/components/admin/AdminRoute';
 import PostPaymentRouterFinal from '@/components/router/PostPaymentRouterFinal';
 import PaymentDebugger from '@/components/debug/PaymentDebugger';
@@ -30,6 +31,7 @@ function App() {
   
   const isAdminRoute = currentPath === '/admin' || window.location.hash === '#admin';
   const isPostPaymentRoute = ['/register', '/dashboard', '/login'].includes(currentPath);
+  const isUpgradePaymentRoute = currentPath === '/payment' && new URLSearchParams(window.location.search).get('type') === 'upgrade';
 
   // Initialize notification manager
   React.useEffect(() => {
@@ -130,6 +132,8 @@ function App() {
                     {/* Handle different routes */}
                     {isAdminRoute ? (
                       <AdminRoute />
+                    ) : isUpgradePaymentRoute ? (
+                      <UpgradePayment />
                     ) : isPostPaymentRoute ? (
                       <PostPaymentRouterFinal />
                     ) : (

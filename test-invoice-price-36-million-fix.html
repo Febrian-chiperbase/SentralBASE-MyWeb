@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Price 36 Million Fix - SentraBASE</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.125rem;
+            color: #4a5568;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        
+        .problem-section {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            border: 1px solid #fecaca;
+        }
+        
+        .problem-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #991b1b;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .price-display {
+            background: #1a202c;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #dc2626;
+        }
+        
+        .price-wrong {
+            color: #dc2626;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .price-correct {
+            color: #10b981;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .calculation-section {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 32px 0;
+            border: 1px solid #bae6fd;
+        }
+        
+        .calculation-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0c4a6e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .calc-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 32px 0;
+        }
+        
+        .calc-card {
+            border-radius: 12px;
+            padding: 24px;
+            border: 2px solid;
+        }
+        
+        .wrong-calc {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-color: #fecaca;
+        }
+        
+        .correct-calc {
+            background: linear-gradient(135deg, #f0fff4, #dcfce7);
+            border-color: #bbf7d0;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .wrong-title {
+            color: #991b1b;
+        }
+        
+        .correct-title {
+            color: #166534;
+        }
+        
+        .calc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .wrong-item {
+            border-color: #fecaca;
+        }
+        
+        .correct-item {
+            border-color: #bbf7d0;
+        }
+        
+        .calc-label {
+            font-weight: 600;
+            color: #1a202c;
+        }
+        
+        .calc-value {
+            font-weight: 700;
+        }
+        
+        .wrong-value {
+            color: #991b1b;
+        }
+        
+        .correct-value {
+            color: #166534;
+        }
+        
+        .total-line {
+            border-top: 2px solid;
+            margin-top: 8px;
+            padding-top: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .wrong-total {
+            border-color: #dc2626;
+        }
+        
+        .correct-total {
+            border-color: #10b981;
+        }
+        
+        .test-section {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 32px 0;
+            border: 1px solid #bae6fd;
+        }
+        
+        .test-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0c4a6e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .test-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        
+        .test-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        
+        .debug-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+        }
+        
+        .fix-btn {
+            background: linear-gradient(135deg, #10b981, #047857);
+            color: white;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+        }
+        
+        .test-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .code-section {
+            background: #1a202c;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+        }
+        
+        .code-comment {
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+        
+        .code-error {
+            color: #dc2626;
+            background: rgba(220, 38, 38, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        
+        .code-success {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #fef2f2;
+            color: #991b1b;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 16px;
+            border: 1px solid #fecaca;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #dc2626;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🚨 Invoice Price 36 Million Error</h1>
+            <p class="subtitle">Harga di invoice menampilkan 36 juta yang salah - Mari debug dan perbaiki perhitungan harga</p>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                Price Calculation Error - 36 Million Instead of 30 Million
+            </div>
+        </div>
+
+        <div class="problem-section">
+            <h3 class="problem-title">
+                ❌ Price Calculation Problem
+            </h3>
+            <p style="color: #991b1b; font-weight: 500; margin-bottom: 16px;">
+                <strong>Issue:</strong> Invoice menampilkan total 36 juta untuk paket Professional yang seharusnya 30 juta.
+            </p>
+            
+            <div class="price-display">
+                <div style="color: #dc2626; font-weight: 700; margin-bottom: 12px;">❌ CURRENT INVOICE PRICING:</div>
+                <div>Subtotal: <span class="price-wrong">Rp 30.000.000</span></div>
+                <div>PPN (11%): <span class="price-wrong">Rp 3.300.000</span></div>
+                <div style="border-top: 1px solid #dc2626; margin-top: 8px; padding-top: 8px;">
+                    <div>TOTAL: <span class="price-wrong">Rp 33.300.000</span></div>
+                </div>
+                <br>
+                <div style="color: #10b981; font-weight: 700; margin-bottom: 12px;">✅ EXPECTED PRICING (if no tax needed):</div>
+                <div>Package Price: <span class="price-correct">Rp 30.000.000</span></div>
+                <div>Tax: <span class="price-correct">Rp 0</span></div>
+                <div style="border-top: 1px solid #10b981; margin-top: 8px; padding-top: 8px;">
+                    <div>TOTAL: <span class="price-correct">Rp 30.000.000</span></div>
+                </div>
+            </div>
+            
+            <p style="color: #991b1b; font-weight: 500; margin-top: 16px;">
+                <strong>Root Cause:</strong> Sistem menambahkan PPN 11% (Rp 3.3 juta) ke harga dasar, menghasilkan total yang lebih tinggi dari yang diharapkan.
+            </p>
+        </div>
+
+        <div class="calc-comparison">
+            <!-- Wrong Calculation -->
+            <div class="calc-card wrong-calc">
+                <h3 class="card-title wrong-title">❌ Current Calculation (With Tax)</h3>
+                <div class="calc-item wrong-item">
+                    <span class="calc-label">Package Price:</span>
+                    <span class="calc-value wrong-value">Rp 30.000.000</span>
+                </div>
+                <div class="calc-item wrong-item">
+                    <span class="calc-label">PPN (11%):</span>
+                    <span class="calc-value wrong-value">Rp 3.300.000</span>
+                </div>
+                <div class="calc-item wrong-item total-line wrong-total">
+                    <span class="calc-label">TOTAL:</span>
+                    <span class="calc-value wrong-value">Rp 33.300.000</span>
+                </div>
+                <div style="margin-top: 12px; color: #991b1b; font-size: 0.875rem;">
+                    <strong>Problem:</strong> Adds 11% tax automatically
+                </div>
+            </div>
+
+            <!-- Correct Calculation -->
+            <div class="calc-card correct-calc">
+                <h3 class="card-title correct-title">✅ Correct Calculation (No Tax)</h3>
+                <div class="calc-item correct-item">
+                    <span class="calc-label">Package Price:</span>
+                    <span class="calc-value correct-value">Rp 30.000.000</span>
+                </div>
+                <div class="calc-item correct-item">
+                    <span class="calc-label">Tax:</span>
+                    <span class="calc-value correct-value">Rp 0</span>
+                </div>
+                <div class="calc-item correct-item total-line correct-total">
+                    <span class="calc-label">TOTAL:</span>
+                    <span class="calc-value correct-value">Rp 30.000.000</span>
+                </div>
+                <div style="margin-top: 12px; color: #166534; font-size: 0.875rem;">
+                    <strong>Solution:</strong> Skip tax calculation if not needed
+                </div>
+            </div>
+        </div>
+
+        <div class="calculation-section">
+            <h3 class="calculation-title">
+                🧮 Tax Calculation Analysis
+            </h3>
+            <p style="color: #0369a1; margin-bottom: 16px;">
+                Sistem saat ini menambahkan PPN 11% secara otomatis. Ini mungkin tidak diperlukan untuk semua kasus.
+            </p>
+            
+            <div class="code-section">
+                <div class="code-comment">// Current Tax Calculation (Automatic)</div>
+                <div>const packagePrice = 30000000;</div>
+                <div>const tax = Math.round(packagePrice * 0.11); <span class="code-error">// Always adds 11%</span></div>
+                <div>const total = packagePrice + tax;</div>
+                <br>
+                <div class="code-comment">// Result:</div>
+                <div>packagePrice: 30,000,000</div>
+                <div>tax: 3,300,000 <span class="code-error">// 11% of 30M</span></div>
+                <div>total: 33,300,000 <span class="code-error">// 30M + 3.3M = 33.3M</span></div>
+                <br>
+                <div class="code-comment">// Enhanced Calculation (Conditional)</div>
+                <div>let tax = 0;</div>
+                <div>let total = packagePrice;</div>
+                <br>
+                <div>if (!paymentData.skipTax) {</div>
+                <div style="margin-left: 16px;">tax = Math.round(packagePrice * 0.11);</div>
+                <div style="margin-left: 16px;">total = packagePrice + tax;</div>
+                <div>}</div>
+                <br>
+                <div class="code-comment">// Result (with skipTax = true):</div>
+                <div>packagePrice: 30,000,000</div>
+                <div>tax: 0 <span class="code-success">// Skipped</span></div>
+                <div>total: 30,000,000 <span class="code-success">// Correct price</span></div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3 class="test-title">
+                🧪 Test Price Calculation
+            </h3>
+            <p style="color: #0369a1; margin-bottom: 20px;">
+                Gunakan tools berikut untuk debug dan test perhitungan harga yang benar
+            </p>
+            
+            <div class="test-buttons">
+                <button onclick="debugPriceCalculation()" class="test-button debug-btn">
+                    🔍 Debug Price Calculation
+                </button>
+                
+                <button onclick="testCurrentPricing()" class="test-button test-btn">
+                    📄 Test Current Pricing
+                </button>
+                
+                <button onclick="testCorrectPricing()" class="test-button fix-btn">
+                    ✅ Test Correct Pricing
+                </button>
+                
+                <button onclick="testWithoutTax()" class="test-button fix-btn">
+                    🚫 Test Without Tax
+                </button>
+            </div>
+        </div>
+
+        <div style="background: #f8fafc; border-radius: 12px; padding: 24px; margin: 32px 0; border: 1px solid #e2e8f0;">
+            <h3 style="color: #1a202c; margin: 0 0 16px 0;">🔧 Price Calculation Scenarios</h3>
+            <div class="code-section">
+                <div class="code-comment">// Scenario 1: Professional Package with Tax</div>
+                <div>packagePrice: 30,000,000</div>
+                <div>tax (11%): 3,300,000</div>
+                <div>total: 33,300,000 <span class="code-error">// Too high?</span></div>
+                <br>
+                <div class="code-comment">// Scenario 2: Professional Package without Tax</div>
+                <div>packagePrice: 30,000,000</div>
+                <div>tax: 0</div>
+                <div>total: 30,000,000 <span class="code-success">// Correct?</span></div>
+                <br>
+                <div class="code-comment">// Scenario 3: Starter Package with Tax</div>
+                <div>packagePrice: 15,000,000</div>
+                <div>tax (11%): 1,650,000</div>
+                <div>total: 16,650,000</div>
+                <br>
+                <div class="code-comment">// Scenario 4: Enterprise Package with Tax</div>
+                <div>packagePrice: 50,000,000</div>
+                <div>tax (11%): 5,500,000</div>
+                <div>total: 55,500,000</div>
+            </div>
+        </div>
+
+        <div style="background: #fef3c7; border-radius: 12px; padding: 24px; margin: 32px 0; border: 1px solid #f59e0b;">
+            <h3 style="color: #92400e; margin: 0 0 16px 0;">🎯 Debug Steps</h3>
+            <div style="color: #92400e; font-weight: 500;">
+                <p><strong>1. Debug Price Calculation:</strong> Lihat breakdown perhitungan harga saat ini</p>
+                <p><strong>2. Test Current Pricing:</strong> Generate invoice dan lihat total yang ditampilkan</p>
+                <p><strong>3. Test Correct Pricing:</strong> Test dengan harga yang sudah diperbaiki</p>
+                <p><strong>4. Check Console:</strong> Lihat debug logs untuk price calculation process</p>
+            </div>
+        </div>
+
+        <div style="background: #f0fff4; border-radius: 12px; padding: 24px; margin-top: 32px; border: 1px solid #bbf7d0;">
+            <h3 style="color: #166534; margin: 0 0 16px 0;">✅ Expected Result After Fix</h3>
+            <div class="price-display" style="border-color: #10b981; background: #064e3b;">
+                <div style="color: #10b981; font-weight: 700; margin-bottom: 12px;">✅ FIXED PRICING:</div>
+                <div>Package Price: <span class="price-correct">Rp 30.000.000</span></div>
+                <div>Tax: <span class="price-correct">Rp 0 (or as needed)</span></div>
+                <div style="border-top: 1px solid #10b981; margin-top: 8px; padding-top: 8px;">
+                    <div>TOTAL: <span class="price-correct">Rp 30.000.000</span></div>
+                </div>
+            </div>
+            <p style="color: #166534; font-weight: 500; margin-top: 16px; text-align: center;">
+                <strong>Invoice akan menampilkan harga yang benar sesuai paket yang dipilih!</strong>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function debugPriceCalculation() {
+            try {
+                const data = localStorage.getItem('sentrabase_payment_data');
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    console.log('💳 Payment data for price debug:', parsed);
+                    console.log('💰 Price calculation check:');
+                    
+                    const packagePrice = parsed.plan?.price || parsed.amount || 30000000;
+                    const tax = Math.round(packagePrice * 0.11);
+                    const total = packagePrice + tax;
+                    
+                    console.log('  - Package price:', packagePrice);
+                    console.log('  - Tax (11%):', tax);
+                    console.log('  - Total:', total);
+                    
+                    let info = '💰 Price Calculation Breakdown:\n\n';
+                    info += `Package Price: Rp ${new Intl.NumberFormat('id-ID').format(packagePrice)}\n`;
+                    info += `Tax (11%): Rp ${new Intl.NumberFormat('id-ID').format(tax)}\n`;
+                    info += `Total: Rp ${new Intl.NumberFormat('id-ID').format(total)}\n\n`;
+                    info += 'Check browser console for detailed analysis.';
+                    
+                    alert(info);
+                } else {
+                    alert('❌ No payment data found in localStorage.');
+                }
+            } catch (error) {
+                console.error('Error debugging price calculation:', error);
+                alert('❌ Error debugging price calculation. Check console for details.');
+            }
+        }
+
+        function testCurrentPricing() {
+            alert('📄 Testing current pricing...\n\n1. Invoice akan dibuat dengan perhitungan saat ini\n2. Buka Console (F12) untuk melihat price breakdown\n3. Periksa total yang ditampilkan di invoice');
+            
+            // Open dashboard to test
+            window.open('http://localhost:5173/dashboard', '_blank');
+        }
+
+        function testCorrectPricing() {
+            alert('✅ Testing correct pricing...\n\nInvoice akan dibuat dengan perhitungan harga yang sudah diperbaiki.');
+            
+            // Call the global test function
+            if (window.testInvoiceWithCorrectPricing) {
+                window.testInvoiceWithCorrectPricing();
+            } else {
+                alert('⚠️ Test function not available. Please refresh the page and try again.');
+            }
+        }
+
+        function testWithoutTax() {
+            alert('🚫 Testing without tax...\n\nInvoice akan dibuat tanpa penambahan PPN untuk melihat harga dasar saja.');
+            
+            // This would test without tax calculation
+            if (window.testInvoiceWithCorrectPricing) {
+                window.testInvoiceWithCorrectPricing();
+            } else {
+                alert('⚠️ Test function not available. Please refresh the page and try again.');
+            }
+        }
+
+        // Check server status
+        fetch('http://localhost:5173/')
+            .then(response => {
+                if (response.ok) {
+                    console.log('✅ Server running - Ready for price debugging!');
+                } else {
+                    console.log('⚠️ Server issues detected');
+                }
+            })
+            .catch(error => {
+                console.log('❌ Server not running:', error);
+                alert('Server tidak berjalan! Jalankan: npm run dev');
+            });
+    </script>
+</body>
+</html>
